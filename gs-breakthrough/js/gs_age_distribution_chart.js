@@ -56,7 +56,7 @@ function createAgeDistributionChart() {
     const tooltip = d3.select("#shared-tooltip");
 
     // Load data
-    d3.csv("https://raw.githubusercontent.com/sorukumar/tml-data/main/data/stantheman/gs_breakthrough_comparison.csv").then(function(data) {
+    d3.csv("https://raw.githubusercontent.com/sorukumar/tml-data/main/data/gs-breakthrough/gs_breakthrough_comparison.csv").then(function(data) {
     // Process data
     data.forEach(d => {
     d.Age_First_GS = +d.Age_First_GS;
