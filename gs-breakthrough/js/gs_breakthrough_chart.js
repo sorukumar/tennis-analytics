@@ -1,4 +1,37 @@
 // D3.js Bubble Chart for Grand Slam Breakthrough Comparison (Scrollytelling Version)
+const PLAYER_IMAGES = {
+    "Roger Federer": "../assets/players/federer.png",
+    "Rafael Nadal": "../assets/players/nadal.png",
+    "Novak Djokovic": "../assets/players/djokovic.png",
+    "Carlos Alcaraz": "../assets/players/alcaraz.png",
+    "Jannik Sinner": "../assets/players/sinner.png",
+    "Pete Sampras": "../assets/players/sampras.png",
+    "Andre Agassi": "../assets/players/agassi.png",
+    "Bjorn Borg": "../assets/players/borg.png",
+    "Andy Murray": "../assets/players/murray.png",
+    "Stan Wawrinka": "../assets/players/wawrinka.png",
+    "Goran Ivanisevic": "../assets/players/ivanisevic.png",
+    "John McEnroe": "../assets/players/mcenroe.png",
+    "Boris Becker": "../assets/players/becker.png",
+    "Stefan Edberg": "../assets/players/edberg.png",
+    "Ivan Lendl": "../assets/players/lendl.png",
+    "Jimmy Connors": "../assets/players/connors.png",
+    "Daniil Medvedev": "../assets/players/medvedev.png",
+    "Lleyton Hewitt": "../assets/players/hewitt.png",
+    "Marat Safin": "../assets/players/safin.png",
+    "Gustavo Kuerten": "../assets/players/kuerten.png",
+    "Jim Courier": "../assets/players/courier.png",
+    "Mats Wilander": "../assets/players/wilander.png",
+    "Michael Chang": "../assets/players/chang.png",
+    "Ken Rosewall": "../assets/players/rosewall.png",
+    "Rod Laver": "../assets/players/laver.png",
+    "John Newcombe": "../assets/players/newcombe.png",
+    "Arthur Ashe": "../assets/players/ashe.png",
+    "Ilie Nastase": "../assets/players/nastase.png",
+    "Guillermo Vilas": "../assets/players/vilas.png",
+    "Juan Martin del Potro": "../assets/players/delpotro.png"
+};
+
 class BreakthroughChart {
     constructor(containerId) {
         this.containerId = containerId;
@@ -75,6 +108,28 @@ class BreakthroughChart {
 
         // Tooltip ref
         this.tooltip = d3.select("#shared-tooltip");
+
+        // Initialize Image Patterns
+        this.initDefs();
+    }
+
+    initDefs() {
+        const defs = this.svg.append("defs");
+
+        Object.entries(PLAYER_IMAGES).forEach(([name, path]) => {
+            const id = "pattern-" + name.replace(/\s+/g, '-').toLowerCase();
+            const pattern = defs.append("pattern")
+                .attr("id", id)
+                .attr("width", 1)
+                .attr("height", 1)
+                .attr("patternContentUnits", "objectBoundingBox");
+
+            pattern.append("image")
+                .attr("xlink:href", path)
+                .attr("width", 1)
+                .attr("height", 1)
+                .attr("preserveAspectRatio", "xMidYMid slice");
+        });
     }
 
     updateData(data) {
@@ -105,7 +160,12 @@ class BreakthroughChart {
             .attr("cx", d => this.xScale(d.Age_First_GS))
             .attr("cy", d => this.yScale(d.Matches_Before_First_GS))
             .attr("r", d => 6) // Start uniform
-            .style("fill", d => this.colorScale(d.Age_First_GS))
+            .style("fill", d => {
+                const imgId = "pattern-" + d.Player_Name.replace(/\s+/g, '-').toLowerCase();
+                return PLAYER_IMAGES[d.Player_Name] ? `url(#${imgId})` : this.colorScale(d.Age_First_GS);
+            })
+            .style("stroke", d => PLAYER_IMAGES[d.Player_Name] ? "#fff" : "none")
+            .style("stroke-width", d => PLAYER_IMAGES[d.Player_Name] ? 2 : 0)
             .on("mouseover", (event, d) => this.showTooltip(event, d))
             .on("mouseout", () => this.hideTooltip());
 
@@ -239,7 +299,12 @@ class BreakthroughChart {
             .attr("cy", d => d.y)
             .attr("r", d => d.r)
             .style("opacity", opacityFunc)
-            .style("fill", d => this.colorScale(d.Age_First_GS));
+            .style("fill", d => {
+                const imgId = "pattern-" + d.Player_Name.replace(/\s+/g, '-').toLowerCase();
+                return PLAYER_IMAGES[d.Player_Name] ? `url(#${imgId})` : this.colorScale(d.Age_First_GS);
+            })
+            .style("stroke", d => PLAYER_IMAGES[d.Player_Name] ? "#fff" : "none")
+            .style("stroke-width", d => PLAYER_IMAGES[d.Player_Name] ? (step === 4 || step === 5 ? 2 : 1) : 0);
 
         // 4. Move Labels based on settled bubble positions
         const labels = this.svg.selectAll(".player-label")

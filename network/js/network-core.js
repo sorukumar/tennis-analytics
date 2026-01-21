@@ -60,36 +60,77 @@ class TennisNetworkGraph {
             return edgeConfig.widthRange[0] + normalized * (edgeConfig.widthRange[1] - edgeConfig.widthRange[0]);
         };
 
+        // Player Image Mapping
+        const PLAYER_IMAGES = {
+            "Roger Federer": "../assets/players/federer.png",
+            "Rafael Nadal": "../assets/players/nadal.png",
+            "Novak Djokovic": "../assets/players/djokovic.png",
+            "Carlos Alcaraz": "../assets/players/alcaraz.png",
+            "Jannik Sinner": "../assets/players/sinner.png",
+            "Pete Sampras": "../assets/players/sampras.png",
+            "Andre Agassi": "../assets/players/agassi.png",
+            "Bjorn Borg": "../assets/players/borg.png",
+            "Andy Murray": "../assets/players/murray.png",
+            "Stan Wawrinka": "../assets/players/wawrinka.png",
+            "Goran Ivanisevic": "../assets/players/ivanisevic.png",
+            "John McEnroe": "../assets/players/mcenroe.png",
+            "Boris Becker": "../assets/players/becker.png",
+            "Stefan Edberg": "../assets/players/edberg.png",
+            "Ivan Lendl": "../assets/players/lendl.png",
+            "Jimmy Connors": "../assets/players/connors.png",
+            "Daniil Medvedev": "../assets/players/medvedev.png",
+            "Lleyton Hewitt": "../assets/players/hewitt.png",
+            "Marat Safin": "../assets/players/safin.png",
+            "Gustavo Kuerten": "../assets/players/kuerten.png",
+            "Jim Courier": "../assets/players/courier.png",
+            "Mats Wilander": "../assets/players/wilander.png",
+            "Michael Chang": "../assets/players/chang.png",
+            "Ken Rosewall": "../assets/players/rosewall.png",
+            "Rod Laver": "../assets/players/laver.png",
+            "John Newcombe": "../assets/players/newcombe.png",
+            "Arthur Ashe": "../assets/players/ashe.png",
+            "Ilie Nastase": "../assets/players/nastase.png",
+            "Guillermo Vilas": "../assets/players/vilas.png",
+            "Juan Martin del Potro": "../assets/players/delpotro.png"
+        };
+
         // Transform nodes
-        const visNodes = this.rawData.nodes.map(node => ({
-            id: node.name,
-            label: node[nodeConfig.labelField],
-            size: sizeScale(node[nodeConfig.sizeField] || 1),
-            color: {
-                background: nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280',
-                border: this.darkenColor(nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280', 20),
-                highlight: {
-                    background: '#f59e0b',
-                    border: '#d97706'
+        const visNodes = this.rawData.nodes.map(node => {
+            const hasImage = PLAYER_IMAGES[node.name];
+            const baseSize = sizeScale(node[nodeConfig.sizeField] || 1);
+
+            return {
+                id: node.name,
+                label: node[nodeConfig.labelField],
+                size: hasImage ? baseSize * 1.5 : baseSize,
+                shape: hasImage ? 'circularImage' : 'dot',
+                image: hasImage ? PLAYER_IMAGES[node.name] : undefined,
+                color: {
+                    background: nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280',
+                    border: this.darkenColor(nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280', 20),
+                    highlight: {
+                        background: '#f59e0b',
+                        border: '#d97706'
+                    },
+                    hover: {
+                        background: this.lightenColor(nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280', 15),
+                        border: nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280'
+                    }
                 },
-                hover: {
-                    background: this.lightenColor(nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280', 15),
-                    border: nodeConfig.colorPalette[node[nodeConfig.colorField]] || '#6b7280'
-                }
-            },
-            shape: 'dot',
-            font: {
-                color: '#1e293b',
-                size: 12,
-                face: 'Inter, system-ui, sans-serif',
-                strokeWidth: 3,
-                strokeColor: '#ffffff'
-            },
-            borderWidth: 2,
-            borderWidthSelected: 3,
-            // Store original data for tooltips
-            originalData: node
-        }));
+                font: {
+                    color: '#1e293b',
+                    size: hasImage ? 14 : 12,
+                    face: 'Inter, system-ui, sans-serif',
+                    strokeWidth: 3,
+                    strokeColor: '#ffffff',
+                    vadjust: hasImage ? 5 : 0 // Push label down a bit for images
+                },
+                borderWidth: hasImage ? 3 : 2,
+                borderWidthSelected: 4,
+                // Store original data for tooltips
+                originalData: node
+            };
+        });
 
         // Transform edges
         const visEdges = this.rawData.edges.map((edge, idx) => ({
