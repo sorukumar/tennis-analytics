@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Network Graph | Tennis Analytics</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tennis Network Graph | Player Connections Visualized">
+    <meta property="og:description"
+        content="Explore the web of tennis rivalries and Grand Slam finals through interactive network graphs. See how players are connected through matches.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/network/">
+    <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tennis Network Graph | Player Connections Visualized">
+    <meta name="twitter:description"
+        content="Interactive network visualization of tennis rivalries and Grand Slam finals.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="../image/favicon.ico">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Component Loader -->
+    <script src="../components/include.js" defer></script>
+    <script src="../components/social-share.js" defer></script>
+
+    <!-- vis.js Network -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+
+    <!-- Network Graph Styles -->
+    <link rel="stylesheet" href="../tennis_analytics.css">
+    <link rel="stylesheet" href="network.css">
+</head>
+
+<body class="network-page">
+    <!-- Header is injected automatically by include.js -->
+
+    <main class="network-container-fullscreen">
+
+        <!-- Graph Container (Now the main stage) -->
+        <div class="network-graph-wrapper">
+            <div class="network-graph" id="network-graph"></div>
+
+            <!-- OVERLAY: Top Left - Command Center (Navigation, Filters, Stats) -->
+            <div class="network-overlay overlay-top-left">
+                <nav class="network-tabs-pills glass-panel">
+                    <button class="network-pill active" data-network="gs_finals" title="Grand Slam Finals">
+                        <i class="fas fa-trophy"></i> GS Finals
+                    </button>
+                    <button class="network-pill" data-network="tennis_rivalries" title="Rivalries">
+                        <i class="fas fa-handshake"></i> Rivalries
+                    </button>
+                    <div class="network-pill-group">
+                        <button class="network-pill small" data-network="australian_open">AO</button>
+                        <button class="network-pill small" data-network="roland_garros">RG</button>
+                        <button class="network-pill small" data-network="wimbledon">W</button>
+                        <button class="network-pill small" data-network="us_open">USO</button>
+                    </div>
+                </nav>
+
+                <div class="era-filter glass-panel">
+                    <button class="era-btn active" data-era="all">All Eras</button>
+                    <button class="era-btn" data-era="1970">70s</button>
+                    <button class="era-btn" data-era="1980">80s</button>
+                    <button class="era-btn" data-era="1990">90s</button>
+                    <button class="era-btn" data-era="2000">2000s</button>
+                    <button class="era-btn" data-era="2010">2010s+</button>
+                </div>
+
+                <div class="network-stats-mini glass-panel" id="network-stats">
+                    <span title="Unique Players"><i class="fas fa-users"></i> <span id="stat-players">0</span></span>
+                    <span title="Connections"><i class="fas fa-share-alt"></i> <span id="stat-edges">0</span></span>
+                    <span title="Total Matches"><i class="fas fa-history"></i> <span id="stat-matches">0</span></span>
+                </div>
+            </div>
+
+            <!-- OVERLAY: Top Right - Search & Legend -->
+            <div class="network-overlay overlay-top-right">
+                <div class="tools-row">
+                    <button id="toggle-legend-btn" class="icon-btn glass-panel" title="Toggle Legend">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="search-container floating">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" id="player-search" placeholder="Find player..."
+                            autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="network-legend-popup glass-panel" id="network-legend">
+                    <h4>Win % Legend</h4>
+                    <div class="legend-row"><span class="legend-dot gold"></span> 70%+ Dominant</div>
+                    <div class="legend-row"><span class="legend-dot green"></span> 61-70% Elite</div>
+                    <div class="legend-row"><span class="legend-dot blue"></span> 51-60% Competitive</div>
+                    <div class="legend-row"><span class="legend-dot orange"></span> 41-50% Active</div>
+                </div>
+            </div>
+
+            <!-- OVERLAY: Bottom Left - Instructions -->
+            <div class="network-overlay overlay-bottom-left">
+                <div class="network-instructions glass-panel">
+                    <span class="instruction-item"><i class="fas fa-mouse-pointer"></i> Drag to Pan</span>
+                    <span class="instruction-item"><i class="fas fa-arrows-up-down"></i> Scroll to Zoom</span>
+                    <span class="instruction-item"><i class="fas fa-hand-pointer"></i> Click to Focus</span>
+                </div>
+            </div>
+
+
+
+            <!-- OVERLAY: Right Center - Player/Match Details -->
+            <div class="network-overlay overlay-right-center" id="details-panel-container">
+                <div class="details-panel glass-panel hidden" id="details-panel">
+                    <div class="details-header">
+                        <h3 id="details-title">Player Name</h3>
+                        <button class="close-btn" id="close-details"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="details-content" id="details-content">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Social Share Component -->
+    <social-share></social-share>
+
+    <!-- Scripts -->
+    <script src="js/network-config.js"></script>
+    <script src="js/network-core.js"></script>
+    <script>
+        // Global state
+        let currentNetwork = null;
+        let currentConfigKey = 'gs_finals';
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for graph type in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const graphParam = urlParams.get('graph');
+            const initialGraph = graphParam && NETWORK_CONFIGS[graphParam] ? graphParam : 'gs_finals';
+
+            loadNetwork(initialGraph, false); // false = don't push state on initial load
+            setupEventListeners();
+
+            // Toggle Legend
+            document.getElementById('toggle-legend-btn').addEventListener('click', () => {
+                document.getElementById('network-legend').classList.toggle('visible');
+            });
+
+            // Handle back/forward navigation
+            window.addEventListener('popstate', (e) => {
+                if (e.state && e.state.graph) {
+                    loadNetwork(e.state.graph, false);
+                }
+            });
+        });
+
+        /**
+         * Load a network graph by config key
+         */
+        async function loadNetwork(configKey, pushState = true) {
+            const config = NETWORK_CONFIGS[configKey];
+            if (!config) {
+                console.error(`Config not found: ${configKey}`);
+                return;
+            }
+
+            // Sync URL
+            if (pushState) {
+                const url = new URL(window.location);
+                url.searchParams.set('graph', configKey);
+                window.history.pushState({ graph: configKey }, '', url);
+            }
+
+            // Cleanup previous network
+            if (currentNetwork) {
+                currentNetwork.destroy();
+            }
+
+            // Update UI
+            currentConfigKey = configKey;
+            updateActiveTab(configKey);
+            resetFilters();
+
+            // Create and load new network
+            currentNetwork = new TennisNetworkGraph('network-graph', config);
+
+            try {
+                await currentNetwork.load();
+                updateStats(currentNetwork.getStats());
+            } catch (error) {
+                console.error('Failed to load network:', error);
+            }
+        }
+
+        /**
+         * Setup event listeners for controls
+         */
+        function setupEventListeners() {
+            // Tab clicks (Modified for new structure)
+            document.querySelectorAll('.network-pill').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const networkKey = tab.dataset.network;
+                    if (networkKey) loadNetwork(networkKey);
+                });
+            });
+
+            // Search input
+            const searchInput = document.getElementById('player-search');
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (currentNetwork) {
+                        currentNetwork.searchPlayer(e.target.value);
+                    }
+                }, 300);
+            });
+
+            // Era filter buttons (Multi-select)
+            document.querySelectorAll('.era-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const era = btn.dataset.era;
+
+                    if (era === 'all') {
+                        // Reset all to "All Eras"
+                        document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    } else {
+                        // Toggle this decade, remove "All Eras"
+                        btn.classList.toggle('active');
+                        document.querySelector('.era-btn[data-era="all"]').classList.remove('active');
+
+                        // If no decades selected, fallback to "All"
+                        const activeDecades = document.querySelectorAll('.era-btn.active:not([data-era="all"])');
+                        if (activeDecades.length === 0) {
+                            document.querySelector('.era-btn[data-era="all"]').classList.add('active');
+                        }
+                    }
+
+                    // Collect active eras
+                    const activeEras = Array.from(document.querySelectorAll('.era-btn.active'))
+                        .map(b => b.dataset.era);
+
+                    // Apply filter
+                    if (currentNetwork) {
+                        currentNetwork.filterByEra(activeEras);
+                    }
+                });
+            });
+
+            // Listen for network selection events
+            document.addEventListener('network:nodeSelected', (e) => {
+                populateDetailsPanel(e.detail.data);
+            });
+
+            document.addEventListener('network:matchupSelected', (e) => {
+                populateMatchupPanel(e.detail.data);
+            });
+
+            document.addEventListener('network:nodeDeselected', () => {
+                hideDetailsPanel();
+            });
+
+            // Close details panel
+            document.getElementById('close-details').addEventListener('click', () => {
+                if (currentNetwork) currentNetwork.resetFocus();
+                hideDetailsPanel();
+            });
+        }
+
+        /**
+         * Populate the side details panel with player data
+         */
+        function populateDetailsPanel(data) {
+            const panel = document.getElementById('details-panel');
+            const title = document.getElementById('details-title');
+            const content = document.getElementById('details-content');
+
+            title.textContent = data.name;
+
+            let html = '';
+
+            // Add active span as a subtitle
+            if (data.active_span) {
+                html += `<div class="details-subtitle" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; margin-top: -15px;">
+                    <i class="fas fa-calendar-alt"></i> ${data.active_span}
+                </div>`;
+            }
+
+            // Hero Stats
+            html += `
+                <div class="details-section">
+                    <div class="details-grid">
+                        <div class="details-item">
+                            <span class="details-label">GS Titles</span>
+                            <span class="details-value highlight">${data.gs_titles || 0}</span>
+                        </div>
+                        <div class="details-item">
+                            <span class="details-label">Peak Rank</span>
+                            <span class="details-value">#${data.peak_ranking || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Performance Section
+            html += `
+                <div class="details-section">
+                    <h4>Overall Performance</h4>
+                    <div class="details-grid">
+                        <div class="details-item">
+                            <span class="details-label">Win %</span>
+                            <span class="details-value">${data.win_pct?.toFixed(1) || 'N/A'}%</span>
+                        </div>
+                        <div class="details-item">
+                            <span class="details-label">Record</span>
+                            <span class="details-value">${data.matches_won}-${data.matches_played - data.matches_won}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Surface Section
+            if (data.surface_win_pcts) {
+                html += `<div class="details-section"><h4>Surface Breakdown</h4><div class="details-grid">`;
+                Object.entries(data.surface_win_pcts).forEach(([surface, pct]) => {
+                    html += `
+                        <div class="details-item">
+                            <span class="details-label">${surface}</span>
+                            <span class="details-value">${pct.toFixed(0)}%</span>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            content.innerHTML = html;
+
+            // Add Rivalries Section
+            if (currentNetwork) {
+                const rivals = currentNetwork.getConnectedRivals(data.name);
+                if (rivals.length > 0) {
+                    const rivalSection = document.createElement('div');
+                    rivalSection.className = 'details-section';
+                    rivalSection.innerHTML = `<h4>Key Rivalries</h4><div class="rivalry-list"></div>`;
+
+                    const list = rivalSection.querySelector('.rivalry-list');
+                    rivals.slice(0, 10).forEach(r => {
+                        const item = document.createElement('div');
+                        item.className = 'rivalry-item';
+                        item.innerHTML = `
+                            <span class="rival-name">${r.name}</span>
+                            <span class="rival-count">${r.matches} matches</span>
+                        `;
+                        item.addEventListener('click', () => {
+                            if (currentNetwork) {
+                                currentNetwork.focusOnEdge(r.edgeId);
+                            }
+                        });
+                        list.appendChild(item);
+                    });
+                    content.appendChild(rivalSection);
+                }
+            }
+
+            panel.classList.remove('hidden');
+        }
+
+        /**
+         * Populate the side panel with Matchup/Rivalry data
+         */
+        function populateMatchupPanel(data) {
+            const panel = document.getElementById('details-panel');
+            const title = document.getElementById('details-title');
+            const content = document.getElementById('details-content');
+
+            title.textContent = "Head-to-Head";
+
+            let html = `
+                <div class="matchup-header">
+                    <div class="matchup-players">
+                        <div class="player-unit">
+                            <span class="player-name">${data.player1}</span>
+                            <span class="player-wins">${data.player1_wins}</span>
+                        </div>
+                        <div class="matchup-vs">VS</div>
+                        <div class="player-unit">
+                            <span class="player-name">${data.player2}</span>
+                            <span class="player-wins">${data.player2_wins}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Surface Breakdown with Battle Bars
+            if (data.surface_breakdown) {
+                html += `
+                    <div class="details-section">
+                        <h4>Surface Breakdown</h4>
+                        <div class="battle-bars-group">
+                `;
+
+                Object.entries(data.surface_breakdown).forEach(([surface, count]) => {
+                    const p1Wins = data.surface_wins?.[data.player1]?.[surface] || 0;
+                    const p2Wins = data.surface_wins?.[data.player2]?.[surface] || 0;
+                    const p1Pct = (p1Wins / count) * 100;
+                    const p2Pct = (p2Wins / count) * 100;
+
+                    html += `
+                        <div class="battle-bar-container">
+                            <div class="battle-bar-header">
+                                <span class="battle-bar-label">${surface}</span>
+                                <span class="battle-bar-count">${count} Matches</span>
+                            </div>
+                            <div class="battle-bar">
+                                <div class="battle-bar-segment segment-p1" style="width: ${p1Pct}%"></div>
+                                <div class="battle-bar-segment segment-p2" style="width: ${p2Pct}%"></div>
+                            </div>
+                            <div class="battle-bar-stats">
+                                <span class="stat-p1">${p1Wins} wins</span>
+                                <span class="stat-p2">${p2Wins} wins</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            // Tourney Breakdown (Top 3) with Battle Bars
+            if (data.tourney_breakdown) {
+                const topTourneys = Object.entries(data.tourney_breakdown)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 3);
+
+                html += `<div class="details-section"><h4>Key Tournaments</h4><div class="battle-bars-group">`;
+                topTourneys.forEach(([name, count]) => {
+                    const hasDetail = data.tourney_wins && data.tourney_wins[data.player1] && data.tourney_wins[data.player2];
+                    const p1Wins = data.tourney_wins?.[data.player1]?.[name] || 0;
+                    const p2Wins = data.tourney_wins?.[data.player2]?.[name] || 0;
+                    const p1Pct = (p1Wins / count) * 100;
+                    const p2Pct = (p2Wins / count) * 100;
+
+                    html += `
+                        <div class="battle-bar-container">
+                            <div class="battle-bar-header">
+                                <span class="battle-bar-label">${name}</span>
+                                <span class="battle-bar-count">${count} Meetings</span>
+                            </div>
+                            <div class="battle-bar">
+                                <div class="battle-bar-segment segment-p1" style="width: ${p1Pct}%"></div>
+                                <div class="battle-bar-segment segment-p2" style="width: ${p2Pct}%"></div>
+                            </div>
+                            <div class="battle-bar-stats">
+                                <span class="stat-p1">${hasDetail ? p1Wins + ' wins' : '-'}</span>
+                                <span class="stat-p2">${hasDetail ? p2Wins + ' wins' : '-'}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            html += `
+                <div class="details-section" style="margin-top: 20px;">
+                    <button class="era-btn" style="width: 100%; border: 1px solid var(--network-border);" onclick="if(currentNetwork) currentNetwork.focusOnNode('${data.player1}')">View ${data.player1} Career</button>
+                    <button class="era-btn" style="width: 100%; border: 1px solid var(--network-border); margin-top: 8px;" onclick="if(currentNetwork) currentNetwork.focusOnNode('${data.player2}')">View ${data.player2} Career</button>
+                </div>
+            `;
+
+            content.innerHTML = html;
+            panel.classList.remove('hidden');
+        }
+
+        /**
+         * Hide the details panel
+         */
+        function hideDetailsPanel() {
+            document.getElementById('details-panel').classList.add('hidden');
+        }
+
+        /**
+         * Update active tab styling
+         */
+        function updateActiveTab(configKey) {
+            document.querySelectorAll('.network-pill').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.network === configKey) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        /**
+         * Reset filters to default
+         */
+        function resetFilters() {
+            // Reset search
+            document.getElementById('player-search').value = '';
+
+            // Reset era filter
+            document.querySelectorAll('.era-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.era === 'all') {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        /**
+         * Update stats display
+         */
+        function updateStats(stats) {
+            document.getElementById('stat-players').textContent = stats.nodes?.toLocaleString() || '-';
+            document.getElementById('stat-edges').textContent = stats.edges?.toLocaleString() || '-';
+            document.getElementById('stat-matches').textContent = stats.totalMatches?.toLocaleString() || stats.total_matches?.toLocaleString() || '-';
+        }
+    </script>
+</body>
+
+</html>

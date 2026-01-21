@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
       ];
 
     // Load tennis data
-    fetch('data/top_tennis_players_timeline.json')
+    fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/globaltop100evolution/top_tennis_players_timeline.json')
         .then(r => r.json())
         .then(tennisData => {
             const years = tennisData.map(d => d.year);

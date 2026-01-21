@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India's Tennis Journey: From Krishnan to Modern Aspirations</title>
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="India's Tennis Journey: From Krishnan to Modern Aspirations">
+    <meta property="og:description"
+        content="Explore the evolution of Indian tennis through data: peaks in the 1970s-80s, notable players, rank trajectories, and the challenges of sustaining success.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/indianplayers/">
+    <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
+
+    <!-- Twitter meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="India's Tennis Journey: From Krishnan to Modern Aspirations">
+    <meta name="twitter:description"
+        content="Data-driven story of Indian tennis: evolution, players, and future prospects.">
+    <meta name="twitter:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
+
+    <!-- Bootstrap CSS - Load first to allow project styles to override -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome 6.4.0 (Standard for the project) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="../tennis_analytics.css">
+    <link rel="stylesheet" href="indianplayers.css">
+
+    <!-- Include components -->
+    <script src="../components/include.js" defer></script>
+
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../image/favicon.ico">
+
+    <!-- Bootstrap JS for tooltips -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../components/social-share.js"></script>
+</head>
+
+<body>
+    <main class="main-content">
+        <section class="article-hero">
+            <div class="container">
+                <h1>India's Tennis Journey</h1>
+                <div class="accent-rule"></div>
+                <p class="lead-text">
+                    From Ramanathan Krishnan’s Wimbledon heroics to modern-day hopes, explore the cycles of
+                    rising promise and the challenge of sustaining excellence in Indian tennis through data.
+                </p>
+
+                <!-- KPI Section -->
+                <div class="row g-4 mt-4 mb-5">
+                    <div class="col-md-3">
+                        <div class="kpi-card glass">
+                            <h3 id="kpi-total-players">--</h3>
+                            <p>Unique Players (ATP Era)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card glass">
+                            <h3 id="kpi-best-rank">19</h3>
+                            <p>Highest Ranking (V. Amritraj)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card glass">
+                            <h3 id="kpi-top100-wins">--</h3>
+                            <p>Wins vs Top 100</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card glass">
+                            <h3 id="kpi-gs-quarters">6</h3>
+                            <p>Grand Slam Quarterfinals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Chapter 1: The Golden Era -->
+            <section class="narrative-chapter">
+                <div class="chapter-tag">Chapter 1</div>
+                <h2>The Golden Era: A Peak in Participation</h2>
+                <p class="chapter-desc">The 1970s and 1980s represent the pinnacle of Indian participation in
+                    professional singles tennis. Driven by the success of the Amritraj brothers and Ramesh Krishnan,
+                    India was a consistent presence in the later rounds of major tournaments.</p>
+
+                <div class="row animate-in">
+                    <div class="col-lg-7">
+                        <div id="time-series-chart" class="chart-container"></div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div id="notable-players-chart" class="chart-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 2: The Ranking Journey -->
+            <section class="narrative-chapter">
+                <div class="chapter-tag">Chapter 2</div>
+                <h2>Scale to the Top: Elite Trajectories</h2>
+                <p class="chapter-desc">Breaking into the Top 100 has been a rare feat for Indian singles players. While
+                    the 1980s saw players comfortably in the Top 50, modern aspirants have faced a tougher climb, often
+                    peaking just inside the Top 100 before injuries or form dips.</p>
+
+                <div id="rank-trajectories-chart" class="chart-container"></div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <div id="h2h-top50-table" class="table-container"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="milestones-table" class="table-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 3: Surface Mastery & Longevity -->
+            <section class="narrative-chapter">
+                <div class="chapter-tag">Chapter 3</div>
+                <h2>Grass Court Heritage vs. Career Longevity</h2>
+                <p class="chapter-desc">Indian tennis has been historically synonymous with grass courts—a style defined
+                    by touch, feel, and serve-and-volley. However, the data reveals a stark contrast: while surface
+                    performance peaks on grass, career longevity often falls short compared to global peers.</p>
+
+                <div class="row animate-in">
+                    <div class="col-lg-6">
+                        <div id="surface-performance-chart" class="chart-container"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="career-lengths-chart" class="chart-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 4: The Efficiency Trend -->
+            <section class="narrative-chapter">
+                <div class="chapter-tag">Chapter 4</div>
+                <h2>The Modern Lull: Participation Quality vs. Quantity</h2>
+                <p class="chapter-desc">In recent years, while the number of players participating has stabilized at a
+                    lower level, the efficiency (win percentage) has seen fluctuations. The challenge for the next
+                    generation is converting early-career promise into sustained ATP-level success.</p>
+                <div id="efficiency-trend-chart" class="chart-container"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Social Share FAB -->
+    <social-share></social-share>
+
+    <!-- Scripts -->
+    <script src="js/indianplayers.js"></script>
+</body>
+
+</html>

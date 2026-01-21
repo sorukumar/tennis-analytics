@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     container.querySelectorAll('div.plotly-graph-div').forEach(el => el.remove());
 
     // Load data
-    fetch('data/global_timeline_dataset.json')
+    fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/globaltop100evolution/global_timeline_dataset.json')
         .then(response => response.json())
         .then(data => {
             const years = data.map(d => d.year);

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'SUI': 'Switzerland'
     };
 
-    fetch('data/top_tennis_players_timeline.json')
+    fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/globaltop100evolution/top_tennis_players_timeline.json')
         .then(response => response.json())
         .then(tennisData => {
             // Prepare data for stacked area chart

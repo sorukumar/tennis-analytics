@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('new-entries-chart');
     if (!container) return;
 
-    fetch('data/top_tennis_players_timeline.json')
+    fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/globaltop100evolution/top_tennis_players_timeline.json')
         .then(response => response.json())
         .then(tennisData => {
-            fetch('data/country_code_mapping.json')
+            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/globaltop100evolution/country_code_mapping.json')
                 .then(resp => resp.json())
                 .then(codeMap => {
                     const codeToName = codeMap.code_to_name || {};

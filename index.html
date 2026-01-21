@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tennis Analytics | Open Source Tennis Data Visualizations</title>
-    
+
     <!-- Open Graph meta tags for Facebook, LinkedIn, etc. -->
     <meta property="og:title" content="Tennis Analytics | Where Data Meets the Court">
-    <meta property="og:description" content="Ever wondered what separates tennis legends from the rest? Dive into the hidden patterns behind every serve, rally, and championship point through interactive data stories.">
+    <meta property="og:description"
+        content="Ever wondered what separates tennis legends from the rest? Dive into the hidden patterns behind every serve, rally, and championship point through interactive data stories.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/">
     <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <!-- Twitter meta tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Tennis Analytics | Where Data Meets the Court">
-    <meta name="twitter:description" content="The hidden patterns behind every serve, rally, and championship point. Interactive tennis data stories.">
+    <meta name="twitter:description"
+        content="The hidden patterns behind every serve, rally, and championship point. Interactive tennis data stories.">
     <meta name="twitter:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <link rel="stylesheet" href="tennis_analytics.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,6 +28,7 @@
     <script src="components/include.js"></script>
     <script src="components/social-share.js"></script>
 </head>
+
 <body>
     <!-- Main Content -->
     <main class="main-content">
@@ -39,7 +43,7 @@
                         <div class="court-line center-line"></div>
                         <div class="court-line service-line-top"></div>
                         <div class="court-line service-line-bottom"></div>
-                        
+
                         <!-- Data Points -->
                         <div class="data-point"></div>
                         <div class="data-point"></div>
@@ -47,14 +51,14 @@
                         <div class="data-point"></div>
                         <div class="data-point"></div>
                         <div class="data-point"></div>
-                        
+
                         <!-- Data Lines -->
                         <div class="data-line"></div>
                         <div class="data-line"></div>
                         <div class="data-line"></div>
                     </div>
                 </div>
-                
+
                 <div class="hero-content">
                     <div class="hero-text">
                         <h1>Tennis Analytics</h1>
@@ -63,7 +67,7 @@
                             <i class="fab fa-github"></i> View on GitHub
                         </a>
                     </div>
-                    
+
                     <!-- Quick Access Links -->
                     <div class="quick-access">
                         <h3>Popular Visualizations</h3>
@@ -84,7 +88,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <!-- Visualizations Section - No heading, just cards -->
             <section id="visualizations">
                 <div class="cards-grid">
@@ -96,13 +100,15 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">The Road to a First Grand Slam: The Clock Is Ticking</h3>
-                            <p class="card-text">Of ~50 Grand Slam winners, only 5 won their first after age 27. If you don't win early, you may never win. Stan Wawrinka and Goran Ivanišević are rare exceptions.</p>
+                            <p class="card-text">Of ~50 Grand Slam winners, only 5 won their first after age 27. If you
+                                don't win early, you may never win. Stan Wawrinka and Goran Ivanišević are rare
+                                exceptions.</p>
                         </div>
                         <div class="card-footer">
                             <a href="stantheman/index.html" class="btn btn-primary">View Analysis</a>
                         </div>
                     </div>
-                    
+
                     <!-- Card: GSDI Analysis -->
                     <div class="card">
                         <div class="card-icon">
@@ -110,7 +116,8 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Slam Performance Power Rankings</h3>
-                            <p class="card-text">Beyond just winning—who crushed the competition? Our rankings quantify the most commanding Grand Slam runs since 2000.</p>
+                            <p class="card-text">Beyond just winning—who crushed the competition? Our rankings quantify
+                                the most commanding Grand Slam runs since 2000.</p>
                         </div>
                         <div class="card-footer">
                             <a href="gsdi/index.html" class="btn btn-primary">View Rankings</a>
@@ -124,7 +131,9 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Grand Slam Nail-Biters</h3>
-                            <p class="card-text">No more recency bias, and no more forgetting the thrillers of the past. We introduce the Nail-Biter Index, a data-based approach to rank Grand Slam matches. </p>
+                            <p class="card-text">No more recency bias, and no more forgetting the thrillers of the past.
+                                We introduce the Nail-Biter Index, a data-based approach to rank Grand Slam matches.
+                            </p>
                         </div>
                         <div class="card-footer">
                             <a href="nbi/index.html" class="btn btn-primary">View Analysis</a>
@@ -138,87 +147,83 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">The Evolving Geography of Tennis Talent</h3>
-                            <p class="card-text">See how the global map of top 100 and top 10 ATP tennis players has shifted over the last five decades. </p>
+                            <p class="card-text">See how the global map of top 100 and top 10 ATP tennis players has
+                                shifted over the last five decades. </p>
                         </div>
                         <div class="card-footer">
                             <a href="globaltop100evolution/index.html" class="btn btn-primary">View Animation</a>
                         </div>
                     </div>
 
-                    <!-- Card 1: Network Graph -->
+                    <!-- Card: Tennis Rivalries Network -->
                     <div class="card">
                         <div class="card-icon">
                             <i class="fas fa-project-diagram"></i>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">The Web of Tennis Rivalries</h3>
-                            <p class="card-text">Explore how players are connected through matches on the ATP Tour since 2000. Each line tells a story of competition and rivalry.</p>
+                            <p class="card-text">Explore how players are connected through high-volume rivalries since
+                                1968. See the dense clusters of competition that define different eras.</p>
                         </div>
                         <div class="card-footer">
-                            <a href="viz/tennis_network_200Match.html" class="btn btn-primary" target="_blank" >800+ Matches</a>
-                            <a href="viz/tennisPlayerasGraph_2000y_200m.html" class="btn btn-outline" target="_blank" >200+ Matches</a>
+                            <a href="network/index.html?graph=tennis_rivalries" class="btn btn-primary">Interactive
+                                Network</a>
                         </div>
                     </div>
-                    
-                    <!-- Card 2: Indian Tennis Players -->
+
+                    <!-- Card: Grand Slam Finals Network -->
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-share-nodes"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">The Grand Slam Network</h3>
+                            <p class="card-text">Every Grand Slam finalist since the Open Era began in 1968. Visualizing
+                                the connections forged through the tour's most prestigious finals.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="network/index.html?graph=gs_finals" class="btn btn-primary">View Network</a>
+                        </div>
+                    </div>
+
+                    <!-- Card: Indian Tennis Players -->
                     <div class="card">
                         <div class="card-icon">
                             <i class="fas fa-flag"></i>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Indian Tennis: A Journey Since 1990</h3>
-                            <p class="card-text">Explore the annual best performances of Indian tennis players on the ATP Tour since 1990, showcasing their milestones and achievements.</p>
+                            <p class="card-text">A data-driven deep dive into India's tennis evolution. From the golden
+                                era of the 70s to modern-day challenges and milestones.</p>
                         </div>
                         <div class="card-footer">
-                            <a href="viz/IndianTennisPlayers90-24.html" class="btn btn-primary" target="_blank" >View Analysis</a>
+                            <a href="indianplayers/index.html" class="btn btn-primary">View Analysis</a>
                         </div>
                     </div>
-                    
-                    <!-- Card 3: Tennis is Brutal -->
+
+                    <!-- Card: Tennis is Brutal -->
                     <div class="card highlight-card">
                         <div class="card-icon">
                             <i class="fas fa-exclamation-circle"></i>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">The Harsh Reality of Pro Tennis</h3>
-                            <p class="card-text"><strong>90% of ATP players never win a single trophy.</strong> More than half leave the tour within 2 years. Discover the brutal truth about professional tennis careers.</p>
+                            <p class="card-text"><strong>90% of ATP players never win a single trophy.</strong> Discover
+                                the brutal truth about professional tennis careers.</p>
                         </div>
                         <div class="card-footer">
                             <a href="viz/brutaltennis.html" class="btn btn-primary">View Analysis</a>
                         </div>
                     </div>
-                    
-                    <!-- Card 4: Grand Slam Finals -->
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">The Pinnacle of Tennis: Grand Slam Finals</h3>
-                            <p class="card-text">Dive into the history of Grand Slam finals with interactive visuals, match stats, and unforgettable rivalries.</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="viz/Grand_Slam_Finals_2003.html" class="btn btn-primary">All Grand Slams</a>
-                            <div class="btn-group" style="margin-top: 10px;">
-                                <a href="viz/Australian_Open_Final_1982.html" class="btn btn-outline btn-sm" target="_blank" >Australian</a>
-                                <a href="viz/French_Open_Final_1982.html" class="btn btn-outline btn-sm" target="_blank" >French</a>
-                                <a href="viz/Wimbledon_Final_1982.html" class="btn btn-outline btn-sm" target="_blank" >Wimbledon</a>
-                                <a href="viz/US_Open_Final_1982.html" class="btn btn-outline btn-sm" target="_blank" >US Open</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                </div>
             </section>
-            
+
             <!-- Minimized About Section -->
             <section id="about" class="project-info-compact">
                 <div class="about-container">
                     <div class="about-item">
                         <i class="fas fa-database"></i>
-                        <span>Data from ATP, WTA, and <a href="https://github.com/JeffSackmann" target="_blank">Jeff Sackmann</a></span>
+                        <span>Data from ATP, WTA, and <a href="https://github.com/JeffSackmann" target="_blank">Jeff
+                                Sackmann</a></span>
                     </div>
                     <div class="about-item">
                         <i class="fas fa-code"></i>
@@ -234,7 +239,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <!-- Tooltip div for charts -->
             <div id="shared-tooltip"></div>
         </div>
@@ -243,4 +248,5 @@
     <!-- Social Share FAB -->
     <social-share></social-share>
 </body>
+
 </html>

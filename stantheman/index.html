@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grand Slam Winners: Age & Experience Analysis | Tennis Analytics</title>
-    
+
     <!-- Open Graph meta tags for Facebook, LinkedIn, etc. -->
     <meta property="og:title" content="The Age Factor: When Tennis Players Win Their First Grand Slam">
-    <meta property="og:description" content="90% of tennis champions win their first Grand Slam before age 27. Most breakthrough after just 2-5 years on tour. Discover the data behind tennis success patterns and the rare exceptions who defied the odds.">
+    <meta property="og:description"
+        content="90% of tennis champions win their first Grand Slam before age 27. Most breakthrough after just 2-5 years on tour. Discover the data behind tennis success patterns and the rare exceptions who defied the odds.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/stantheman/">
     <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <!-- Twitter meta tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Age Factor: When Tennis Players Win Their First Grand Slam">
-    <meta name="twitter:description" content="90% win before 27. Most breakthrough in 2-5 years. The data behind tennis success patterns and rare late bloomers.">
+    <meta name="twitter:description"
+        content="90% win before 27. Most breakthrough in 2-5 years. The data behind tennis success patterns and rare late bloomers.">
     <meta name="twitter:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <!-- Include global styles first -->
     <link rel="stylesheet" href="../tennis_analytics.css">
     <!-- Then topic-specific styles -->
@@ -29,68 +32,90 @@
     <script src="../components/include.js"></script>
     <script src="../components/social-share.js"></script>
 </head>
+
 <body>
     <!-- Header and navigation will be loaded by include.js -->
-    
+
     <!-- Main Content -->
     <main class="main-content">
-    <div class="container">
-        <h1>Grand Slam Winners: The Journey to Success</h1>
-
-        <!-- Shared tooltip div that all charts will use -->
-        <div id="shared-tooltip" class="tooltip"></div>
-
-        <!-- Age Distribution Chart Section -->
-        <section class="chart-section">
-            <div class="chart-explanation" id="age-distribution-chart-explanation">
-                <h2>Age Distribution of First Grand Slam Wins</h2>
-                <p>90% of players win their first Grand Slam before the age of 27, with half achieving this milestone before turning 23.</p>
-                <p>All-time greats (5+ GS titles) have typically won their first Grand Slam before turning 22, notable exceptions like Ivan Lendl and potentially Jannik Sinner.</p>
-                <p>Stan Wawrinka is unique: the only player with over a decade on tour and 500+ matches to claim three Grand Slam titles, highlighting the immense difficulty of winning after such a prolonged career. A legend in his own right.</p>
-            </div>
-            <div class="chart-container" id="age-distribution-chart">
-                <div class="chart-title">Age Distribution of First Grand Slam Wins</div>
+        <section class="article-hero">
+            <div class="container">
+                <h1>Grand Slam Breakthroughs</h1>
+                <div class="accent-rule"></div>
+                <p class="lead-text">
+                    The clock is ticking. 90% of tennis champions win their first Grand Slam before age 27.
+                    Discover the data behind success patterns and the legends who defied the odds.
+                </p>
             </div>
         </section>
 
-        <!-- Timeline Chart Section -->
-        <section class="chart-section">
-            <div class="chart-explanation" id="timeline-chart-explanation">
-                <h2>Years on Tour Before First Grand Slam</h2>
-                <p>For most players, it takes 2-5 years on tour to mature and win their first Grand Slam.</p>
-                <p>However, players like Goran Ivanišević (13 years), Andrés Gómez (12 years), and Stan Wawrinka (11 years) defied the odds, achieving Grand Slam success after more than a decade of perseverance.</p>
-            </div>
-            <div class="chart-container" id="timeline-chart">
-                <div class="chart-title">Years on Tour Before First Grand Slam Win</div>
-            </div>
-        </section>
+        <div class="container">
 
-        <!-- Bubble Chart Section -->
-        <section class="chart-section">
-            <div class="chart-explanation" id="bubble-chart-explanation">
-                <h2>Age vs Experience at First Grand Slam Win</h2>
-                <p>If a player hasn't won a Grand Slam by the age of 22, their chances of winning one drop significantly, and the likelihood of winning multiple Grand Slams becomes almost zero.</p>
-                <p>Players like Stan Wawrinka, Goran Ivanišević, Petr Korda, Andrés Gómez, and Thomas Muster are examples of those who faced setbacks but made remarkable comebacks to achieve Grand Slam glory.</p>
-            </div>
-            <div class="chart-container" id="bubble-chart">
-                <div class="chart-title">Grand Slam Breakthrough Comparison</div>
-            </div>
-        </section>
+            <!-- Shared tooltip div that all charts will use -->
+            <div id="shared-tooltip" class="tooltip"></div>
 
-        <!-- Conclusion Section -->
-        <section class="chart-section">
-            <div class="chart-explanation" id="conclusion">
-                <h2>Conclusion</h2>
-                <p>Stan Wawrinka is a unique case: over 10 years on tour, 500+ matches, and a career-high ranking of 8, yet he went on to win 3 Grand Slam titles. Truly a legend in his own right.</p>
-                <p>Goran Ivanišević's Grand Slam victory remains one of the most celebrated achievements in tennis history, a testament to perseverance and determination.</p>
-            </div>
-        </section>
+            <!-- Age Distribution Chart Section -->
+            <section class="chart-section">
+                <div class="chart-explanation" id="age-distribution-chart-explanation">
+                    <h2>Age Distribution of First Grand Slam Wins</h2>
+                    <p>90% of players win their first Grand Slam before the age of 27, with half achieving this
+                        milestone before turning 23.</p>
+                    <p>All-time greats (5+ GS titles) have typically won their first Grand Slam before turning 22,
+                        notable exceptions like Ivan Lendl and potentially Jannik Sinner.</p>
+                    <p>Stan Wawrinka is unique: the only player with over a decade on tour and 500+ matches to claim
+                        three Grand Slam titles, highlighting the immense difficulty of winning after such a prolonged
+                        career. A legend in his own right.</p>
+                </div>
+                <div class="chart-container" id="age-distribution-chart">
+                    <div class="chart-title">Age Distribution of First Grand Slam Wins</div>
+                </div>
+            </section>
 
-        <!-- Social Share FAB -->
-        <social-share></social-share>
-    </div>
-</main>
-    
+            <!-- Timeline Chart Section -->
+            <section class="chart-section">
+                <div class="chart-explanation" id="timeline-chart-explanation">
+                    <h2>Years on Tour Before First Grand Slam</h2>
+                    <p>For most players, it takes 2-5 years on tour to mature and win their first Grand Slam.</p>
+                    <p>However, players like Goran Ivanišević (13 years), Andrés Gómez (12 years), and Stan Wawrinka (11
+                        years) defied the odds, achieving Grand Slam success after more than a decade of perseverance.
+                    </p>
+                </div>
+                <div class="chart-container" id="timeline-chart">
+                    <div class="chart-title">Years on Tour Before First Grand Slam Win</div>
+                </div>
+            </section>
+
+            <!-- Bubble Chart Section -->
+            <section class="chart-section">
+                <div class="chart-explanation" id="bubble-chart-explanation">
+                    <h2>Age vs Experience at First Grand Slam Win</h2>
+                    <p>If a player hasn't won a Grand Slam by the age of 22, their chances of winning one drop
+                        significantly, and the likelihood of winning multiple Grand Slams becomes almost zero.</p>
+                    <p>Players like Stan Wawrinka, Goran Ivanišević, Petr Korda, Andrés Gómez, and Thomas Muster are
+                        examples of those who faced setbacks but made remarkable comebacks to achieve Grand Slam glory.
+                    </p>
+                </div>
+                <div class="chart-container" id="bubble-chart">
+                    <div class="chart-title">Grand Slam Breakthrough Comparison</div>
+                </div>
+            </section>
+
+            <!-- Conclusion Section -->
+            <section class="chart-section">
+                <div class="chart-explanation" id="conclusion">
+                    <h2>Conclusion</h2>
+                    <p>Stan Wawrinka is a unique case: over 10 years on tour, 500+ matches, and a career-high ranking of
+                        8, yet he went on to win 3 Grand Slam titles. Truly a legend in his own right.</p>
+                    <p>Goran Ivanišević's Grand Slam victory remains one of the most celebrated achievements in tennis
+                        history, a testament to perseverance and determination.</p>
+                </div>
+            </section>
+
+            <!-- Social Share FAB -->
+            <social-share></social-share>
+        </div>
+    </main>
+
     <!-- Footer will be loaded by include.js -->
 
     <!-- Initialize the shared tooltip -->
@@ -99,7 +124,7 @@
         let sharedTooltip;
 
         // Initialize the shared tooltip once the DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Check if tooltip already exists
             if (!document.getElementById('shared-tooltip')) {
                 const tooltipDiv = document.createElement('div');
@@ -116,4 +141,5 @@
     <script src="js/gs_timeline_chart.js"></script>
     <script src="js/gs_breakthrough_chart.js"></script>
 </body>
+
 </html>

@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nail-Biting Index: A data-driven measure of tennis match drama</title>
-    
+
     <!-- Open Graph meta tags for Facebook, LinkedIn, etc. -->
     <meta property="og:title" content="The Science of Tennis Drama: Which Grand Slam Finals Actually Delivered">
-    <meta property="og:description" content="Not all five-setters are created equal. We built a 'Nail-Biting Index' to measure real tennis drama. The results will surprise you—some legendary matches barely register, while others off the radar are pure theater.">
+    <meta property="og:description"
+        content="Not all five-setters are created equal. We built a 'Nail-Biting Index' to measure real tennis drama. The results will surprise you—some legendary matches barely register, while others off the radar are pure theater.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/nbi/">
     <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <!-- Twitter meta tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Science of Tennis Drama: Which Finals Actually Delivered">
-    <meta name="twitter:description" content="We built a 'Nail-Biting Index' for Grand Slam drama. Some legendary matches barely register. The results will surprise you.">
+    <meta name="twitter:description"
+        content="We built a 'Nail-Biting Index' for Grand Slam drama. Some legendary matches barely register. The results will surprise you.">
     <meta name="twitter:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
-    
+
     <!-- Include components -->
     <script src="../components/include.js"></script>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Add Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome 6.4.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Project CSS -->
     <link rel="stylesheet" href="../tennis_analytics.css">
     <link rel="stylesheet" href="nbi.css">
-    
+
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-    
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
     <!-- Favicon -->
     <link rel="icon" href="../image/favicon.ico">
 
@@ -42,6 +48,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../components/social-share.js"></script>
 </head>
+
 <body>
     <!-- Add modal HTML before main content -->
     <div id="matchModal" class="modal">
@@ -56,17 +63,19 @@
     </div>
 
     <main class="main-content">
-        <div class="container">
-            <h1 class="section-title">Nail-Biting Index: A data-driven measure of tennis match drama</h1>
-            
-            <div class="article-header">
-                <div class="intro-text">
-                    <p>We often fall victim to recency bias— thinking every new five-setter is "the greatest match ever." 
-                        The Nail-Biting Index is here that gets into match statistics to measure the drama.
-                    </p>
-                </div>
+        <section class="article-hero">
+            <div class="container">
+                <h1>The Nail-Biter Index</h1>
+                <div class="accent-rule"></div>
+                <p class="lead-text">
+                    Not all five-setters are created equal. We built a data-driven measure of tennis drama to find the
+                    matches that truly kept us on the edge of our seats.
+                </p>
             </div>
-            
+        </section>
+
+        <div class="container">
+
             <div class="controls-container">
                 <div class="toggle-container">
                     <button id="showAllMatches" class="toggle-btn">All Matches</button>
@@ -98,7 +107,7 @@
                 <div class="nbi-formula">
                     <h3>The NBI Formula</h3>
                     <div class="formula-text">
-                        NBI = 
+                        NBI =
                         0.25 × (Set Closeness) +
                         0.22 × (Comeback Factor) +
                         0.18 × (Lead Changes) +
@@ -107,16 +116,18 @@
                         0.07 × (Break Point Drama) +
                         0.06 × (Final Set Tiebreak)
                     </div>
-            
+
                     <div class="nbi-components">
                         <div class="nbi-component" data-component="sets" data-weight="0.25">
                             <h4>Set Closeness</h4>
-                            <p>Measures how close each set was—smaller average margins mean tighter, more competitive sets.</p>
+                            <p>Measures how close each set was—smaller average margins mean tighter, more competitive
+                                sets.</p>
                             <div class="weight">25%</div>
                         </div>
                         <div class="nbi-component" data-component="comeback" data-weight="0.22">
                             <h4>Comeback Factor</h4>
-                            <p>Rewards matches where a player comes back from a significant deficit, especially from two sets down.</p>
+                            <p>Rewards matches where a player comes back from a significant deficit, especially from two
+                                sets down.</p>
                             <div class="weight">22%</div>
                         </div>
                         <div class="nbi-component" data-component="lead_changes" data-weight="0.18">
@@ -158,23 +169,38 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    
+
     <script>
         // Load both data files
         Promise.all([
-            fetch('data/gs_nailbiters.json').then(response => response.json()),
-            fetch('data/iconic_gs_matches.json').then(response => response.json())
+            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/gs_nailbiters.json').then(response => response.json()),
+            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/iconic_gs_matches.json').then(response => response.json())
         ]).then(([nailbitersData, iconicMatches]) => {
             // Create a map of iconic matches with unique key including tournament and date
+            // Handle both old schema (match, tourney, date) and new schema (winner_name, loser_name, tourney_name, tourney_date)
             const iconicMatchesMap = new Map(
                 iconicMatches.map(match => {
-                    const tourneyYear = match.tourney_date.substring(0, 4);
-                    const key = `${match.winner_name} def. ${match.loser_name}|${match.tourney_name}|${tourneyYear}`;
-                    return [key, match];
+                    // Support both schemas
+                    const matchStr = match.match || `${match.winner_name} def. ${match.loser_name}`;
+                    const tourney = match.tourney || match.tourney_name;
+                    const dateStr = match.date || match.tourney_date;
+                    const tourneyYear = dateStr.substring(0, 4);
+                    const key = `${matchStr}|${tourney}|${tourneyYear}`;
+
+                    // Normalize the match object to have consistent field names
+                    return [key, {
+                        match: matchStr,
+                        tourney: tourney,
+                        date: dateStr,
+                        historical_significance: match.historical_significance,
+                        short_commentary: match.short_commentary,
+                        career_impact: match.career_impact,
+                        cultural_resonance: match.cultural_resonance
+                    }];
                 })
             );
 
-            const matchesData = nailbitersData.map(match => {
+            const matchesData = nailbitersData.filter(match => match.date).map(match => {
                 const tourneyYear = match.date.substring(0, 4);
                 const matchKey = `${match.match}|${match.tourney}|${tourneyYear}`;
                 return {
@@ -193,16 +219,16 @@
                 data: matchesData,
                 dom: 'frtip',
                 columns: [
-                    { 
+                    {
                         title: "Rank",
                         data: null,
                         render: function (data, type, row, meta) {
                             return meta.row + 1;
                         }
                     },
-                    { 
+                    {
                         data: 'match',
-                        render: function(data, type, row) {
+                        render: function (data, type, row) {
                             if (type === 'display' && row.iconicMatch) {
                                 const tooltipContent = `
                                     <strong>${row.iconicMatch.historical_significance}</strong>
@@ -229,7 +255,7 @@
                 order: [[5, 'desc']],
                 pageLength: 25,
                 lengthMenu: [[25], [25]],
-                drawCallback: function() {
+                drawCallback: function () {
                     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
                     tooltipTriggerList.map(function (tooltipTriggerEl) {
                         return new bootstrap.Tooltip(tooltipTriggerEl, {
@@ -247,30 +273,30 @@
             table.column(3).search('').draw();
 
             // Toggle button functionality
-            $('#showAllMatches').click(function() {
+            $('#showAllMatches').click(function () {
                 $(this).addClass('active');
                 $('#showFinals').removeClass('active');
                 table.column(3).search('').draw();
             });
 
-            $('#showFinals').click(function() {
+            $('#showFinals').click(function () {
                 $(this).addClass('active');
                 $('#showAllMatches').removeClass('active');
                 table.column(3).search('^F$', true, false).draw();
             });
 
             // Update What is NBI? button to scroll to section
-            $('#showMethodology').click(function() {
+            $('#showMethodology').click(function () {
                 $('.nbi-breakdown')[0].scrollIntoView({ behavior: 'smooth' });
             });
 
             // Download functionality
-            $('#downloadData').click(function() {
-                const csvContent = "data:text/csv;charset=utf-8," + 
-                    table.data().toArray().map(row => 
+            $('#downloadData').click(function () {
+                const csvContent = "data:text/csv;charset=utf-8," +
+                    table.data().toArray().map(row =>
                         Object.values(row).join(",")
                     ).join("\n");
-                
+
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
@@ -281,4 +307,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -16,6 +16,15 @@
   --transition-standard: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* Layout Containers - High specificity to override frameworks */
+body .container,
+body .container-body {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  width: 100% !important;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -32,7 +41,7 @@ body {
 
 /* Compact Header */
 .header {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('image/claytennis.jpeg') no-repeat center center;
   background-size: cover;
   padding: 40px 0;
@@ -64,7 +73,8 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  min-height: 320px; /* Reduced height */
+  min-height: 320px;
+  /* Reduced height */
   background-color: white;
   overflow: hidden;
   display: flex;
@@ -121,9 +131,9 @@ body {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   min-width: 300px;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .quick-access h3 {
@@ -194,7 +204,8 @@ body {
   right: 0;
   width: 50%;
   height: 100%;
-  opacity: 0.08; /* More subtle */
+  opacity: 0.08;
+  /* More subtle */
   transform: rotate(-5deg) scale(1.5) translateX(10%);
 }
 
@@ -352,66 +363,121 @@ body {
   transform: translateY(-2px);
 }
 
-/* Navigation */
-.navbar {
-  background-color: var(--primary-color);
-  padding: 12px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow-soft);
+/* Navigation - High specificity to override frameworks like Bootstrap */
+nav.navbar {
+  background-color: var(--primary-color) !important;
+  padding: 12px 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  box-shadow: var(--shadow-soft) !important;
+  display: block !important;
+  /* Ensure navbar itself is not flex, only container-nav */
 }
 
-.container-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.navbar .container-nav {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  width: 100% !important;
 }
 
-.navbar-brand {
-  font-family: 'Playfair Display', serif;
-  color: white;
-  font-weight: 600;
-  font-size: 1.5rem;
-  text-decoration: none;
+.navbar .navbar-brand {
+  font-family: 'Playfair Display', serif !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  text-decoration: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
 }
 
-.nav-links {
-  display: flex;
-  gap: 25px;
+.navbar .nav-links {
+  display: flex !important;
+  gap: 25px !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
 }
 
-.nav-link {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  opacity: 0.9;
-  transition: var(--transition-standard);
+.navbar .nav-link {
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  opacity: 0.9 !important;
+  transition: var(--transition-standard) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 5px 0 !important;
 }
 
-.nav-link:hover {
-  opacity: 1;
-  color: var(--accent-color);
+.navbar .nav-link:hover {
+  opacity: 1 !important;
+  color: var(--accent-color) !important;
 }
 
 /* Active navigation link */
-.nav-link.active {
-  color: var(--accent-color);
-  font-weight: 600;
+.navbar .nav-link.active {
+  color: var(--accent-color) !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
 }
 
 /* Home link in navigation */
-.home-link {
-  margin-left: 10px;
+.navbar .home-link {
+  margin-left: 10px !important;
 }
 
 /* Main Content */
 .main-content {
-  padding: 40px 0 60px;
+  padding: 0 0 60px;
+}
+
+/* Standardized Article HeroSection */
+.article-hero {
+  padding: 80px 0 60px;
+  background: white;
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.article-hero .container {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+}
+
+.article-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.article-hero .lead-text {
+  font-size: 1.25rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.article-hero .accent-rule {
+  width: 60px;
+  height: 4px;
+  background: var(--accent-color);
+  margin: 0 auto 32px;
+  border-radius: 2px;
 }
 
 .container-body {
@@ -467,7 +533,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .card:hover {
@@ -621,7 +687,8 @@ body {
   margin-right: 10px;
 }
 
-.about-item span, .about-item a {
+.about-item span,
+.about-item a {
   font-size: 0.95rem;
 }
 
@@ -688,10 +755,12 @@ body {
     transform: scale(1);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.5);
     opacity: 0.4;
   }
+
   100% {
     transform: scale(1);
     opacity: 0.8;
@@ -704,11 +773,13 @@ body {
     transform-origin: left center;
     transform: scaleX(0) rotate(var(--rotation, 30deg));
   }
+
   50% {
     opacity: 1;
     transform-origin: left center;
     transform: scaleX(1) rotate(var(--rotation, 30deg));
   }
+
   100% {
     opacity: 0;
     transform-origin: left center;
@@ -796,9 +867,11 @@ body {
   .chart-container {
     height: 400px;
   }
+
   .chart-explanation h2 {
     font-size: 1.3rem;
   }
+
   .chart-title {
     font-size: 1.2rem;
   }
@@ -808,9 +881,11 @@ body {
   .chart-section {
     padding: 15px;
   }
+
   .chart-explanation {
     padding: 15px;
   }
+
   .chart-container {
     padding: 10px;
   }
@@ -823,27 +898,27 @@ body {
     text-align: center;
     padding: 30px 20px;
   }
-  
+
   .hero-text {
     max-width: 100%;
     margin-bottom: 20px;
   }
-  
+
   .quick-access {
     width: 100%;
     max-width: 450px;
   }
-  
+
   .quick-links {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .quick-link {
     width: auto;
   }
-  
+
   .about-container {
     justify-content: center;
     gap: 20px;
@@ -854,53 +929,53 @@ body {
   .header h1 {
     font-size: 2rem;
   }
-  
+
   .navbar-brand {
     font-size: 1.3rem;
   }
-  
+
   .nav-links {
     gap: 15px;
   }
-  
+
   .section-title {
     font-size: 1.5rem;
   }
-  
+
   .footer-content {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
-  
+
   .footer-right {
     margin-top: 10px;
   }
-  
+
   .hero {
     min-height: auto;
     padding: 30px 0;
   }
-  
+
   .hero h1 {
     font-size: 2.2rem;
   }
-  
+
   .tennis-court {
     opacity: 0.05;
     width: 100%;
     transform: rotate(0) scale(1.2);
   }
-  
+
   .quick-links {
     flex-direction: column;
   }
-  
+
   .about-container {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .about-item {
     margin: 8px 0;
   }
@@ -910,16 +985,16 @@ body {
   .header h1 {
     font-size: 1.7rem;
   }
-  
+
   .cards-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .btn-group {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .btn-group .btn {
     width: 100%;
     margin-bottom: 5px;
@@ -938,7 +1013,7 @@ body {
   pointer-events: none;
   opacity: 0;
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Social Share FAB (Floating Action Button) */
@@ -1057,24 +1132,25 @@ body {
 /* Mobile adjustments for FAB */
 @media (max-width: 768px) {
   .social-share-fab {
-    bottom: 80px; /* Move up to avoid mobile browser controls */
+    bottom: 80px;
+    /* Move up to avoid mobile browser controls */
     right: 16px;
   }
-  
+
   .fab-trigger {
     width: 50px;
     height: 50px;
   }
-  
+
   .fab-trigger i {
     font-size: 1.1rem;
   }
-  
+
   .fab-options .share-btn {
     width: 40px;
     height: 40px;
   }
-  
+
   .fab-options .share-btn i {
     font-size: 0.9rem;
   }

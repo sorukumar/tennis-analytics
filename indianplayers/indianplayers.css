@@ -1,0 +1,187 @@
+/* Indian Players Analysis Specific Styles */
+
+/* Indian Players Analysis Specific Styles */
+
+
+.section-title {
+    margin-bottom: 40px;
+    font-size: 2rem;
+    line-height: 1.3;
+}
+
+/* Narrative Structure */
+.narrative-chapter {
+    margin-bottom: 80px;
+    padding-top: 20px;
+}
+
+.chapter-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--primary-light, #e3f2fd);
+    color: var(--primary-color, #1976d2);
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.chapter-desc {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 900px;
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+/* KPI Cards */
+.kpi-card {
+    padding: 25px;
+    text-align: center;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+}
+
+.kpi-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.kpi-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+/* Chart Enhancements */
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: 450px;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+/* Base Adjustments */
+.article-hero {
+    padding: 80px 0 60px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 60px;
+}
+
+.article-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.accent-rule {
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.table tbody+tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .chart-container {
+        padding: 10px;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Article header and intro styles consistent with other pages */
+.article-header {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.intro-text {
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.intro-text p:first-child {
+    margin-bottom: 0.8rem;
+}
+
+.intro-text p:last-child {
+    margin-bottom: 0;
+}

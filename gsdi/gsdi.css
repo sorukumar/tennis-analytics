@@ -1,10 +1,7 @@
 /* Grand Slam Dominance Index (GSDI) Specific Styles */
 
-.container {
-    max-width: 95%;
-    margin: 0 auto;
-    padding: 20px;
-}
+/* Grand Slam Dominance Index (GSDI) Specific Styles */
+
 
 /* Page Title and Controls Styling */
 .section-title {
@@ -60,7 +57,7 @@
 
 .methodology-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Chart Container */
@@ -96,7 +93,7 @@ table.dataTable thead th {
 
 table.dataTable tbody td {
     padding: 10px 15px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     color: var(--text-dark);
 }
 
@@ -115,7 +112,7 @@ table.dataTable tbody tr:hover {
     padding: 25px;
     margin-bottom: 30px;
     box-shadow: var(--shadow-soft);
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .gsdi-formula h3 {
@@ -150,13 +147,13 @@ table.dataTable tbody tr:hover {
     border-radius: 8px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-align: left;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     position: relative;
 }
 
 .gsdi-component:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border-color: var(--primary-color);
 }
 
@@ -196,7 +193,7 @@ table.dataTable tbody tr:hover {
     background: #f8f9fa;
     padding: 20px 25px;
     border-radius: 8px;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .bonus-component h4 {
