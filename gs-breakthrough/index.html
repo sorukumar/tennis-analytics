@@ -24,7 +24,7 @@
     <!-- Include global styles first -->
     <link rel="stylesheet" href="../tennis_analytics.css">
     <!-- Then topic-specific styles -->
-    <link rel="stylesheet" href="stan_analysis.css">
+    <link rel="stylesheet" href="gs-breakthrough.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -49,71 +49,109 @@
             </div>
         </section>
 
-        <div class="container">
+        <!-- Scrollytelling Section -->
+        <section id="scrolly">
+            <article>
+                <div class="step" data-step="1">
+                    <div class="step-content">
+                        <h3>The Prodigies</h3>
+                        <p>Most Grand Slam winners start young. <br><br>
+                            <strong>The "Prodigy Zone"</strong> (Age < 23, < 200 Matches) is where players like <strong>
+                                Rafael Nadal</strong>, <strong>Boris Becker</strong>, and <strong>Mats Wilander</strong>
+                                made their mark effectively instantly.
+                        </p>
+                    </div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-content">
+                        <h3>The Norm</h3>
+                        <p>If you don't win immediately, you usually win within your first 5 years.<br><br>
+                            Players like <strong>Roger Federer</strong> and <strong>Novak Djokovic</strong> sit
+                            here—taking a few years to mature before dominating.</p>
+                    </div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-content">
+                        <h3>The Grinders</h3>
+                        <p>Then there are those who wait. And wait.<br><br>
+                            <strong>Stan Wawrinka</strong> and <strong>Goran Ivanišević</strong> played over 400 matches
+                            before lifting a major trophy. They prove that it's never too late.
+                        </p>
+                    </div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-content">
+                        <h3>The Legends</h3>
+                        <p>Size matters. <br><br>
+                            Here we size the bubbles by <strong>Total Grand Slam Titles</strong>. Notice how the "Big 3"
+                            dominate the landscape, even if they started at different speeds.</p>
+                    </div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-content">
+                        <h3>Explore the Data</h3>
+                        <p>Interact with the chart yourself.<br><br>
+                            Hover over players to see their stats. Filter by era or search for your favorite champion.
+                        </p>
+                    </div>
+                </div>
+            </article>
 
-            <!-- Shared tooltip div that all charts will use -->
-            <div id="shared-tooltip" class="tooltip"></div>
-
-            <!-- Age Distribution Chart Section -->
-            <section class="chart-section">
-                <div class="chart-explanation" id="age-distribution-chart-explanation">
-                    <h2>Age Distribution of First Grand Slam Wins</h2>
-                    <p>90% of players win their first Grand Slam before the age of 27, with half achieving this
-                        milestone before turning 23.</p>
-                    <p>All-time greats (5+ GS titles) have typically won their first Grand Slam before turning 22,
-                        notable exceptions like Ivan Lendl and potentially Jannik Sinner.</p>
-                    <p>Stan Wawrinka is unique: the only player with over a decade on tour and 500+ matches to claim
-                        three Grand Slam titles, highlighting the immense difficulty of winning after such a prolonged
-                        career. A legend in his own right.</p>
-                </div>
-                <div class="chart-container" id="age-distribution-chart">
-                    <div class="chart-title">Age Distribution of First Grand Slam Wins</div>
-                </div>
-            </section>
-
-            <!-- Timeline Chart Section -->
-            <section class="chart-section">
-                <div class="chart-explanation" id="timeline-chart-explanation">
-                    <h2>Years on Tour Before First Grand Slam</h2>
-                    <p>For most players, it takes 2-5 years on tour to mature and win their first Grand Slam.</p>
-                    <p>However, players like Goran Ivanišević (13 years), Andrés Gómez (12 years), and Stan Wawrinka (11
-                        years) defied the odds, achieving Grand Slam success after more than a decade of perseverance.
-                    </p>
-                </div>
-                <div class="chart-container" id="timeline-chart">
-                    <div class="chart-title">Years on Tour Before First Grand Slam Win</div>
-                </div>
-            </section>
-
-            <!-- Bubble Chart Section -->
-            <section class="chart-section">
-                <div class="chart-explanation" id="bubble-chart-explanation">
-                    <h2>Age vs Experience at First Grand Slam Win</h2>
-                    <p>If a player hasn't won a Grand Slam by the age of 22, their chances of winning one drop
-                        significantly, and the likelihood of winning multiple Grand Slams becomes almost zero.</p>
-                    <p>Players like Stan Wawrinka, Goran Ivanišević, Petr Korda, Andrés Gómez, and Thomas Muster are
-                        examples of those who faced setbacks but made remarkable comebacks to achieve Grand Slam glory.
-                    </p>
-                </div>
+            <figure id="sticky-chart">
                 <div class="chart-container" id="bubble-chart">
                     <div class="chart-title">Grand Slam Breakthrough Comparison</div>
                 </div>
+
+                <!-- Control Panel moved inside sticky for the last step -->
+                <div id="sticky-controls" class="control-panel compact-controls"
+                    style="opacity: 0; pointer-events: none; transition: opacity 0.5s;">
+                    <div class="control-group">
+                        <label>Era: <span id="era-label">1968 - 2024</span></label>
+                        <div class="slider-container" style="margin-bottom: 5px;">
+                            <div id="era-slider-track"></div>
+                            <input type="range" id="era-start" min="1968" max="2024" value="1968" step="1">
+                            <input type="range" id="era-end" min="1968" max="2024" value="2024" step="1">
+                        </div>
+                        <div class="era-presets">
+                            <button class="era-btn" data-start="1968" data-end="1979">70s</button>
+                            <button class="era-btn" data-start="1980" data-end="1989">80s</button>
+                            <button class="era-btn" data-start="1990" data-end="1999">90s</button>
+                            <button class="era-btn" data-start="2000" data-end="2024">Modern</button>
+                            <button class="era-btn active" data-start="1968" data-end="2024">All</button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <input type="text" id="player-search" placeholder="Search Player...">
+                        <div id="search-results" class="search-results"></div>
+                    </div>
+                </div>
+            </figure>
+        </section>
+
+        <div class="container">
+            <!-- Other Charts (Age & Timeline) can follow as "Deep Dives" -->
+            <section class="chart-section" style="margin-top: 100px;">
+                <div class="chart-explanation">
+                    <h2>Deeper Dive: Age Distribution</h2>
+                    <p>When we look strictly at age, the pattern becomes even clearer. The "Age of Champions" peaks
+                        sharply at 22.</p>
+                </div>
+                <div class="chart-container" id="age-distribution-chart"></div>
             </section>
 
-            <!-- Conclusion Section -->
             <section class="chart-section">
-                <div class="chart-explanation" id="conclusion">
-                    <h2>Conclusion</h2>
-                    <p>Stan Wawrinka is a unique case: over 10 years on tour, 500+ matches, and a career-high ranking of
-                        8, yet he went on to win 3 Grand Slam titles. Truly a legend in his own right.</p>
-                    <p>Goran Ivanišević's Grand Slam victory remains one of the most celebrated achievements in tennis
-                        history, a testament to perseverance and determination.</p>
+                <div class="chart-explanation">
+                    <h2>Deeper Dive: Timeline to Glory</h2>
+                    <p>Years on tour before the first win.</p>
                 </div>
+                <div class="chart-container" id="timeline-chart"></div>
             </section>
 
             <!-- Social Share FAB -->
             <social-share></social-share>
         </div>
+
+        <div id="shared-tooltip" class="tooltip"></div>
     </main>
 
     <!-- Footer will be loaded by include.js -->
@@ -137,6 +175,8 @@
             sharedTooltip = d3.select("#shared-tooltip");
         });
     </script>
+    <script src="js/gs_common.js"></script>
+    <script src="js/scrolly.js"></script>
     <script src="js/gs_age_distribution_chart.js"></script>
     <script src="js/gs_timeline_chart.js"></script>
     <script src="js/gs_breakthrough_chart.js"></script>

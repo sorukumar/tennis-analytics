@@ -1,0 +1,374 @@
+/* Grand Slam Breakthrough Analysis CSS */
+
+/* Base Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+/* Reduced white space between hero and scrolly */
+.article-hero {
+    padding: 40px 0 20px !important;
+    margin-bottom: 10px !important;
+}
+
+.article-hero h1 {
+    margin-bottom: 15px !important;
+}
+
+.article-hero .accent-rule {
+    margin-bottom: 20px !important;
+}
+
+/* Scrollytelling Layout */
+#scrolly {
+    position: relative;
+    display: flex;
+    padding: 0 5% 1rem;
+    /* Removed top padding */
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+article {
+    position: relative;
+    width: 35%;
+    max-width: 500px;
+    z-index: 10;
+}
+
+/* Generic Chart Container (for bottom charts) */
+.chart-container {
+    width: 100%;
+    height: 500px;
+    /* Default fixed height */
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+figure#sticky-chart {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5vh;
+    width: 65%;
+    height: 90vh;
+    /* Full viewport height for the chart */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.step {
+    min-height: 90vh;
+    /* Space out steps */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center text vertically in its "slot" */
+    margin-bottom: 2rem;
+    opacity: 0.3;
+    /* Dim inactive steps */
+    transition: opacity 0.5s ease;
+}
+
+.step.is-active {
+    opacity: 1;
+}
+
+.step-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--primary-color);
+}
+
+.step-content h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.8rem;
+}
+
+.step-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* Chart Container inside Sticky */
+figure#sticky-chart .chart-container {
+    width: 100%;
+    height: 100%;
+    max-height: 700px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px 40px;
+    /* Increased bottom/side padding */
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 10px;
+    flex: 0 0 auto;
+}
+
+#bubble-chart svg {
+    flex: 1 1 auto;
+    overflow: visible;
+    /* Allow axis labels to be fully visible */
+}
+
+/* Control Panel (Compact inside Sticky) */
+.compact-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    backdrop-filter: blur(5px);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    padding: 12px 16px;
+    background: white;
+    color: var(--text-dark);
+    border-radius: 6px;
+    pointer-events: none;
+    font-size: 0.9rem;
+    z-index: 100;
+    opacity: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    #scrolly {
+        flex-direction: column-reverse;
+        /* Chart on top on mobile? No, usually chart on top, text below */
+        display: block;
+        padding: 0;
+    }
+
+    figure#sticky-chart {
+        position: relative;
+        /* Unstick on mobile */
+        width: 100%;
+        height: 50vh;
+        top: 0;
+        z-index: 2;
+    }
+
+    article {
+        width: 100%;
+        padding: 0 20px;
+        max-width: none;
+        z-index: 3;
+        margin-top: -50px;
+        /* Overlap slightly */
+    }
+
+    .step {
+        min-height: auto;
+        margin-bottom: 80vh;
+        /* Giant spacer to allow scrolling */
+        opacity: 1;
+        /* Always visible on mobile */
+    }
+
+    .step-content {
+        background: white;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Common UI Elements (Search, Buttons) - Inherited from existing but refined */
+.era-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-dark);
+}
+
+.era-btn:hover,
+.era-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    bottom: 100%;
+    /* Show above input */
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result-item:hover {
+    background: #f5f5f5;
+}
+
+/* D3 Elements */
+.bubble {
+    opacity: 0.85;
+    transition: all 0.5s ease-out;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+.bubble.highlighted {
+    stroke: #333;
+    stroke-width: 2px;
+    opacity: 1;
+}
+
+.bubble.dimmed {
+    opacity: 0.1;
+}
+
+.quadrant-line {
+    stroke: #e0e0e0;
+    stroke-width: 2px;
+    stroke-dasharray: 4;
+}
+
+.quadrant-area {
+    fill: #f9f9f9;
+    rx: 10;
+    ry: 10;
+}
+
+/* Soft backgrounds instead of lines */
+
+.player-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    fill: var(--text-dark);
+    pointer-events: none;
+    text-anchor: middle;
+}
+
+/* Simple Chart Sections (Bottom) */
+.chart-section {
+    padding: 40px 0;
+    border-top: 1px solid #eee;
+}
+
+/* Age Distribution Zones */
+.zone-peak {
+    fill: #4caf50;
+    opacity: 0.1;
+}
+
+.zone-closing {
+    fill: #ff9800;
+    opacity: 0.1;
+}
+
+.zone-rare {
+    fill: #f44336;
+    opacity: 0.1;
+}
+
+.kde-area {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 2px;
+}
+
+/* Axis Styling */
+.axis path,
+.axis line,
+.x-axis path,
+.x-axis line,
+.y-axis path,
+.y-axis line {
+    stroke: #333 !important;
+    stroke-width: 1.5px !important;
+    shape-rendering: crispEdges;
+    opacity: 1 !important;
+}
+
+.axis text,
+.x-axis text,
+.y-axis text {
+    fill: #333 !important;
+    font-size: 11px !important;
+    font-weight: 500;
+}
+
+.axis-label {
+    fill: #1e5631 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
