@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inSubfolder = currentPath.includes('/viz/') || currentPath.includes('/gs-breakthrough/') ||
         currentPath.includes('/bigthree/') || currentPath.includes('/summercamp/') || currentPath.includes('/nbi/') ||
         currentPath.includes('/gsdi/') || currentPath.includes('/globaltop100evolution/') || currentPath.includes('/network/') ||
-        currentPath.includes('/indianplayers/');
+        currentPath.includes('/indianplayers/') || currentPath.includes('/greatness/');
     const pathPrefix = inSubfolder ? '../' : '';
 
     // Load header

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Race to Greatness | Tennis Analytics</title>
+
+    <!-- Meta Tags for Social Sharing -->
+    <meta property="og:title" content="The Race to Greatness: Alcaraz & Sinner vs The GOATs">
+    <meta property="og:description"
+        content="A data-driven comparison of Carlos Alcaraz and Jannik Sinner's career trajectories against tennis legends like Federer, Nadal, Djokovic, Borg, and more.">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="../image/claytennis.jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Race to Greatness: Alcaraz & Sinner vs The GOATs">
+    <meta name="twitter:description"
+        content="See how the new generation stacks up against tennis history's greatest players.">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../tennis_analytics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="../image/favicon.ico">
+
+    <style>
+        /* Page Specific Styles */
+        .chart-container-large {
+            height: 600px;
+            width: 100%;
+            position: relative;
+        }
+
+        .chart-container-medium {
+            height: 400px;
+            width: 100%;
+        }
+
+        .control-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tooltip refinement */
+        .d3-tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            pointer-events: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
+            max-width: 250px;
+            z-index: 1000;
+            color: #1a202c;
+            line-height: 1.4;
+        }
+
+        .grid line {
+            stroke: #e2e8f0;
+            stroke-opacity: 0.7;
+            shape-rendering: crispEdges;
+        }
+
+        .grid path {
+            stroke-width: 0;
+        }
+
+        .milestone-point {
+            transition: r 0.2s, stroke-width 0.2s;
+            cursor: pointer;
+        }
+
+        .milestone-point:hover {
+            r: 6;
+            stroke-width: 3;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .y-axis path,
+        .y-axis line {
+            stroke: #cbd5e1;
+        }
+
+        .x-axis path,
+        .x-axis line {
+            stroke: #cbd5e1;
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="../components/include.js"></script>
+    <script src="../components/social-share.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <main class="main-content">
+        <div class="container-body">
+            <!-- Hero Section -->
+            <section class="article-hero">
+                <h1>The Race to Greatness</h1>
+                <div class="accent-rule"></div>
+                <p class="lead-text">
+                    Comparing the career trajectories of <strong>Carlos Alcaraz</strong> and <strong>Jannik
+                        Sinner</strong>
+                    against the titans of tennis history. Are they ahead of the curve?
+                </p>
+            </section>
+
+            <!-- Chart 1: Trajectory -->
+            <section class="mb-5">
+                <div class="section-title">Career Trajectory</div>
+                <p class="section-description">
+                    Follow the path of each player match-by-match.
+                    <strong>X-Axis:</strong> Age, <strong>Y-Axis:</strong> Cumulative Matches Played.
+                    Milestones markers show efficiency (e.g., winning a Slam earlier in their career).
+                </p>
+
+                <div class="card p-4">
+                    <div class="control-panel">
+                        <button id="play-button" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Play Animation
+                        </button>
+                        <div style="flex-grow: 1;">
+                            <label for="age-slider" class="form-label">Age: <span id="age-display">16.0</span>
+                                years</label>
+                            <input type="range" class="form-range w-100" id="age-slider" min="16" max="40" step="0.1"
+                                value="40">
+                        </div>
+                    </div>
+
+                    <div id="trajectory-chart" class="chart-container-large"></div>
+
+                    <div id="trajectory-legend" class="mt-3 d-flex flex-wrap justify-content-center">
+                        <!-- Legend will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Row 2 -->
+            <div class="row" style="display: flex; gap: 30px; flex-wrap: wrap;">
+                <!-- Chart 2: GS Chase -->
+                <div class="col" style="flex: 1; min-width: 400px;">
+                    <section class="mb-5">
+                        <div class="section-title">The Grand Slam Chase</div>
+                        <p class="section-description">Cumulative Grand Slam titles by age.</p>
+                        <div class="card p-4">
+                            <div id="gs-chase-chart" class="chart-container-medium"></div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Chart 3: Big Titles -->
+                <div class="col" style="flex: 1; min-width: 400px;">
+                    <section class="mb-5">
+                        <div class="section-title">Big Titles "Speedometer"</div>
+                        <p class="section-description">Combined Slams, Masters, and ATP Finals.</p>
+                        <div class="card p-4">
+                            <div id="big-titles-chart" class="chart-container-medium"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Chart 4: Snapshot -->
+            <section class="mb-5">
+                <div class="section-title">Dominance Snapshot (Age 22)</div>
+                <p class="section-description">How they compared at the exact same age.</p>
+                <div class="card p-4">
+                    <div id="snapshot-chart" class="chart-container-medium"></div>
+                </div>
+            </section>
+
+            <!-- About Data -->
+            <section class="project-info-compact">
+                <div class="about-container">
+                    <div class="about-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Includes: Big 3, Borg, Sampras, McEnroe, Lendl, Agassi, Alcaraz, Sinner</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-database"></i>
+                        <span>Data through 2025</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <social-share></social-share>
+
+    <!-- Viz Scripts -->
+    <script src="js/race_charts.js"></script>
+</body>
+
+</html>
