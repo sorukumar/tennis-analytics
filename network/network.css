@@ -1114,73 +1114,110 @@
         font-size: 1.75rem;
     }
 
-    .network-controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .controls-left,
-    .controls-right {
-        justify-content: center;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    .network-graph {
-        height: 500px;
-    }
-
-    .network-legend {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .network-stats {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
     .network-container-fullscreen {
-        height: calc(100vh - 50px);
-        /* Account for mobile browser address bars roughly */
+        height: calc(100vh - 60px);
+    }
+
+    /* Hide Clutter on Mobile as requested */
+    .era-filter,
+    .network-instructions {
+        display: none !important;
+    }
+
+    /* Adjust Overlays for Mobile */
+    .network-overlay {
+        padding: 10px;
     }
 
     .overlay-top-left {
         max-width: 100%;
         width: 100%;
+        gap: 8px;
     }
 
-    .network-branding {
-        display: none;
-        /* Hide title on mobile to save space */
+    .network-tabs-pills {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .network-pill {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+
+    .network-pill-group .network-pill {
+        padding: 4px 8px;
+    }
+
+    .network-stats-mini {
+        gap: 10px;
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        order: 3;
+        /* Move below tabs */
     }
 
     .overlay-top-right {
-        top: auto;
-        bottom: 80px;
-        /* Above bottom controls */
-        right: 16px;
+        top: 60px;
+        /* Below top left pills if they stack */
+        right: 10px;
     }
 
     .search-container.floating .search-input {
-        width: 200px;
+        width: 160px;
+        font-size: 0.85rem;
+        padding-top: 8px;
+        padding-bottom: 8px;
     }
 
-    .overlay-bottom-center {
-        width: 90%;
-        bottom: 16px;
-    }
-
-    .glass-panel {
+    /* Details Panel as Bottom Sheet on Mobile */
+    .overlay-right-center {
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        transform: translateY(0);
+        max-width: 100%;
         width: 100%;
-        overflow-x: auto;
-        justify-content: flex-start;
+        padding: 0;
     }
 
-    .surface-btn {
-        flex-shrink: 0;
+    .details-panel {
+        max-height: 60vh;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+        box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .details-panel.hidden {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    .matchup-header {
+        padding: 12px;
+    }
+
+    .player-unit .player-wins {
+        font-size: 1.4rem;
+    }
+
+    .matchup-vs {
+        padding-top: 15px;
+    }
+
+    .battle-bar-container {
+        padding: 8px;
+    }
+}
+
+/* Extra small mobile adjustments */
+@media (max-width: 480px) {
+    .network-pill-group {
+        display: none;
+        /* Hide AO, RG, W, USO on very small screens to save space */
+    }
+
+    .search-container.floating .search-input {
+        width: 120px;
     }
 }

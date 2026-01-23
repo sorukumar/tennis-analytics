@@ -12,16 +12,29 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch(`${pathPrefix}components/header.html`)
         .then(response => response.text())
         .then(data => {
-            // Replace relative paths based on current location
-            if (inSubfolder) {
-                // For subfolder pages, relative links (../) in the header fragment are already correct
-                document.body.insertAdjacentHTML('afterbegin', data);
-            } else {
+            let headerHtml = data;
+            if (!inSubfolder) {
                 // For root level, remove the "../" prefix from links
-                const adjustedData = data
+                headerHtml = data
                     .replace(/href="\.\.\//g, 'href="')
                     .replace(/src="\.\.\//g, 'src="');
-                document.body.insertAdjacentHTML('afterbegin', adjustedData);
+            }
+
+            document.body.insertAdjacentHTML('afterbegin', headerHtml);
+
+            // Setup mobile menu toggle
+            const navToggle = document.getElementById('nav-toggle');
+            const navLinksContainer = document.getElementById('nav-links');
+            if (navToggle && navLinksContainer) {
+                navToggle.addEventListener('click', () => {
+                    navLinksContainer.classList.toggle('show');
+                    const icon = navToggle.querySelector('i');
+                    if (navLinksContainer.classList.contains('show')) {
+                        icon.classList.replace('fa-bars', 'fa-times');
+                    } else {
+                        icon.classList.replace('fa-times', 'fa-bars');
+                    }
+                });
             }
 
             // Highlight current page in navigation

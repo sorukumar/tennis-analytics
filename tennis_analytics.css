@@ -406,6 +406,57 @@ nav.navbar {
   list-style: none !important;
 }
 
+/* Nav Toggle Button (Hidden by default) */
+.nav-toggle {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+  color: white !important;
+  font-size: 1.5rem !important;
+  cursor: pointer !important;
+  padding: 5px !important;
+  transition: var(--transition-standard) !important;
+}
+
+.nav-toggle:hover {
+  color: var(--accent-color) !important;
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block !important;
+  }
+
+  .navbar .nav-links {
+    position: fixed !important;
+    top: 60px !important;
+    /* Adjusted for navbar height */
+    right: -100% !important;
+    width: 280px !important;
+    height: calc(100vh - 60px) !important;
+    background-color: var(--primary-color) !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    padding: 40px 20px !important;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1001 !important;
+  }
+
+  .navbar .nav-links.show {
+    right: 0 !important;
+  }
+
+  .navbar .nav-link {
+    width: 100% !important;
+    padding: 12px 0 !important;
+    font-size: 1.1rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
 .navbar .nav-link {
   color: white !important;
   text-decoration: none !important;

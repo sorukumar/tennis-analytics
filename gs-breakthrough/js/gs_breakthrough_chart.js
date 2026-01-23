@@ -250,17 +250,21 @@ class BreakthroughChart {
                 sizingFunc = d => this.sizeScale(d.Total_GS_Titles);
                 opacityFunc = d => 0.8;
                 labelFilter = d => d.Total_GS_Titles >= 3;
-
-                // Show controls
-                document.getElementById('sticky-controls').style.opacity = 1;
-                document.getElementById('sticky-controls').style.pointerEvents = 'all';
                 break;
         }
 
-        // Hide controls if not step 5
-        if (step !== 5) {
-            document.getElementById('sticky-controls').style.opacity = 0;
-            document.getElementById('sticky-controls').style.pointerEvents = 'none';
+        // Toggle visibility and classes for mobile bottom sheet / desktop panel
+        const controls = document.getElementById('sticky-controls');
+        if (controls) {
+            if (step === 5) {
+                controls.style.opacity = 1;
+                controls.style.pointerEvents = 'all';
+                controls.classList.add('is-visible');
+            } else {
+                controls.style.opacity = 0;
+                controls.style.pointerEvents = 'none';
+                controls.classList.remove('is-visible');
+            }
         }
 
         // Apply Domains

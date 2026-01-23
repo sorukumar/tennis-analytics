@@ -190,45 +190,125 @@ figure#sticky-chart .chart-container {
     max-width: 250px;
 }
 
-/* Mobile Responsiveness */
+/* Mobile Responsiveness & Scrollytelling Refinement */
 @media (max-width: 900px) {
     #scrolly {
-        flex-direction: column-reverse;
-        /* Chart on top on mobile? No, usually chart on top, text below */
+        flex-direction: column;
         display: block;
         padding: 0;
+        margin-top: 0;
     }
 
     figure#sticky-chart {
-        position: relative;
-        /* Unstick on mobile */
+        position: sticky;
+        top: 60px;
+        /* Below header */
         width: 100%;
-        height: 50vh;
-        top: 0;
-        z-index: 2;
+        height: 45vh;
+        /* Reduced height for chart to leave room for cards */
+        z-index: 5;
+        background: white;
+        padding: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    figure#sticky-chart .chart-container {
+        padding: 10px;
+        box-shadow: none;
+        max-height: 100%;
+    }
+
+    .chart-title {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
     }
 
     article {
         width: 100%;
-        padding: 0 20px;
+        padding: 0 15px;
         max-width: none;
-        z-index: 3;
-        margin-top: -50px;
-        /* Overlap slightly */
+        z-index: 10;
+        position: relative;
+        margin-top: -5vh;
+        /* Initial overlap minimized */
     }
 
     .step {
-        min-height: auto;
-        margin-bottom: 80vh;
-        /* Giant spacer to allow scrolling */
+        min-height: 60vh;
+        margin-bottom: 20vh;
+        opacity: 0.2;
+        /* Back to scrolly behavior */
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .step.is-active {
         opacity: 1;
-        /* Always visible on mobile */
+        transform: translateY(-20px);
     }
 
     .step-content {
-        background: white;
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.98);
+        padding: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        border-radius: 16px;
     }
+
+    .step-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    .step-content p {
+        font-size: 1rem;
+    }
+
+    /* Bottom Sheet Controls for Mobile */
+    .compact-controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+        border-radius: 24px 24px 0 0;
+        padding: 25px 20px 40px;
+        z-index: 2000;
+        flex-direction: column;
+        align-items: stretch;
+        background: white;
+    }
+
+    .compact-controls.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Hide Era presets on small mobile to save space, use slider only or swipe */
+    .era-presets {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .era-btn {
+        flex-shrink: 0;
+    }
+
+    /* Scrolly Instructions - Hide on mobile clutter */
+    .mobile-hide {
+        display: none !important;
+    }
+}
+
+/* Base Utility for instructions */
+.instruction-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 10px;
+    text-align: center;
 }
 
 /* Common UI Elements (Search, Buttons) - Inherited from existing but refined */
