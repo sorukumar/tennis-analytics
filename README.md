@@ -14,7 +14,7 @@
 | :--- | :--- | :--- |
 | **The Race to Greatness** | [View Story](https://sorukumar.github.io/tennis-analytics/greatness/) | **Insight**: Nadal was a prodigy; Federer was a relatively late starter compared to his Big 3 peers. |
 | **Slam Power Rankings** | [View Story](https://sorukumar.github.io/tennis-analytics/gsdi/) | **Insight**: GSDI quantifies championship dominance—who won without breaking a sweat? |
-| **Grand Slam Nail-Biters** | [View Story](https://sorukumar.github.io/tennis-analytics/nbi/) | **Insight**: Math proves drama isn't just about sets; tension is often higher in lower-ranked thrillers. |
+| **Grand Slam Nail-Biters** | [View Story](https://sorukumar.github.io/tennis-analytics/nbi/) | **Insight**: Ranks the **2019 Wimbledon Final** as the most exciting match ever; benchmarks the **Alcaraz-Sinner RG** clash as a modern epic. |
 | **Geography of Talent** | [View Story](https://sorukumar.github.io/tennis-analytics/globaltop100evolution/) | **Insight**: Maps the 50-year talent shift from traditional strongholds to a globalized landscape. |
 | **Rivalry Networks** | [View Story](https://sorukumar.github.io/tennis-analytics/network/) | **Insight**: Player "gravity" and connections forged through historical matches and finals. |
 | **The Road to a Slam** | [View Story](https://sorukumar.github.io/tennis-analytics/gs-breakthrough/) | **Insight**: 90% win before age 27. Most legends make a definitive mark within 1-3 years on tour. |

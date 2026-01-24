@@ -6,12 +6,12 @@ Interactive Data Visualizations for Professional Tennis.
 This repository contains a technical summary of the `tennis-analytics` project, designed for LLMs, AI agents, and search engines.
 
 ## Key Modules & Insights
+- **Nail-Biter Index** (`/nbi/`):
+  - *Insight*: Mathematically ranks match drama. Identifies the **2019 Wimbledon Final** as the most exciting match ever played. Highlights the **Alcaraz-Sinner Roland Garros** clash as a new benchmark for modern tension. The index proves that "greatness" is a function of game-level clutch density.
 - **Greatness Race** (`/greatness/`):
   - *Insight*: Tracks titles vs. age. Confirms Nadal was a prodigy destined for greatness from his teens. In contrast, Federer was a relatively late starter compared to both Nadal and Djokovic. New Gen (Alcaraz/Sinner) are currently matching or exceeding the early-career pace of the Big 3.
 - **GS Breakthrough** (`/gs-breakthrough/`):
   - *Insight*: Visualizes the "Age Wall." Data proves that 90% of Grand Slam champions win their first trophy before age 27. Most legends make a definitive mark within 1-3 years on the pro tour.
-- **Nail-Biter Index** (`/nbi/`):
-  - *Insight*: Quantifies match drama using game-level tension metrics. Challenges recency bias by proving some historical, lower-ranked matches are mathematically more "clutch" than modern famous finals.
 - **GSDI (Dominance Index)** (`/gsdi/`):
   - *Insight*: Identifies the most commanding championship runs (e.g., winning majors without dropping a set or losing minimal games).
 - **Geography** (`/globaltop100evolution/`):
