@@ -1,4 +1,4 @@
-# TennisAnalytics
+# tennis-analytics
 
 A project dedicated to exploring and visualizing tennis data.
 

@@ -1,4 +1,7 @@
-# TennisAnalytics Project Guide for LLMs
+# tennis-analytics Project Guide for LLMs
+
+## Project Context
+`tennis-analytics` is an open-source platform hosting interactive data visualizations or "data stories" about professional tennis. It leverages Python for data processing (often in a sister repo `tml-data`) and D3.js/ECharts for frontend storytelling.
 
 ## Project Overview
 This project focuses on creating interactive visualizations for tennis data analysis. The primary goal is to create engaging visual representations of tennis statistics and patterns with enhanced user experience and social sharing capabilities.
@@ -104,14 +107,14 @@ The project follows a visualization-centric organizational pattern with modern w
    <meta property="og:title" content="Page Title">
    <meta property="og:description" content="Page description">
    <meta property="og:type" content="article">
-   <meta property="og:url" content="https://sorukumar.github.io/TennisAnalytics/page/">
-   <meta property="og:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
+   <meta property="og:url" content="https://sorukumar.github.io/tennis-analytics/page/">
+   <meta property="og:image" content="https://sorukumar.github.io/tennis-analytics/image/claytennis.jpeg">
    
    <!-- Twitter meta tags -->
    <meta name="twitter:card" content="summary_large_image">
    <meta name="twitter:title" content="Page Title">
    <meta name="twitter:description" content="Page description">
-   <meta name="twitter:image" content="https://sorukumar.github.io/TennisAnalytics/image/claytennis.jpeg">
+   <meta name="twitter:image" content="https://sorukumar.github.io/tennis-analytics/image/claytennis.jpeg">
    ```
 
 3. D3.js Charts:

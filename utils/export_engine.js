@@ -6,7 +6,7 @@ class ExportEngine {
     constructor() {
         this.config = {
             logoUrl: '', // URL for the logo image
-            siteUrl: 'TennisAnalytics.net', // Text to display
+            siteUrl: 'https://sorukumar.github.io/tennis-analytics/', // Text to display
             width: 1920, // Default tracking width (HD)
             height: 1080, // Default tracking height (HD)
             fps: 30,     // Reduced to 30fps for stability with heavy SVG serialization
