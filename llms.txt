@@ -5,24 +5,22 @@ Interactive Data Visualizations for Professional Tennis.
 ## Overview
 This repository contains a technical summary of the `tennis-analytics` project, designed for LLMs, AI agents, and search engines.
 
-## Key Modules
-- **Greatness Race**: Trajectory analysis of New Gen (Alcaraz, Sinner) vs. Big 3.
-- **GSDI**: Grand Slam Dominance Index quantifying championship runs.
-- **NBI**: Nail-Biter Index measuring match drama through data.
-- **Geography**: 50-year evolution of ATP talent origins.
-- **Networks**: Player rivalry clusters and finals connections.
+## Key Modules & Insights
+- **Greatness Race** (`/greatness/`):
+  - *Insight*: Tracks titles vs. age. Confirms Alcaraz/Sinner are currently on a steeper trajectory for Big Titles than Federer/Djokovic were at the same age.
+- **GSDI (Dominance Index)** (`/gsdi/`):
+  - *Insight*: Quantifies the most commanding Slam runs (e.g., winning without dropping a set).
+- **Nail-Biter Index** (`/nbi/`):
+  - *Insight*: Dramatically re-ranks matches based on game-level tension. It proves that match "greatness" isn't just about the names, but the mathematical density of "clutch" moments.
+- **GS Breakthrough** (`/gs-breakthrough/`):
+  - *Insight*: Visualizes the "Age Wall." Shows that players who haven't won a Slam by 27 face a survival rate of less than 10% for future success.
+- **Geography** (`/globaltop100evolution/`):
+  - *Insight*: Maps the shift of talent from Western Europe and the US to a more fragmented, global distribution over 50 years.
 
 ## Tech Stack
-- **Languages**: JavaScript (v8+), HTML5, CSS3, Python (Data Prep).
-- **Libraries**: D3.js (v7), ECharts, Vis.js.
-- **Utilities**: `ExportEngine` (Video Export), `include.js` (Component Loading).
-
-## Technical Standards
-- Design System: Court Green (#1e5631), Ball Yellow (#f9c74f).
-- Components: Modular injection using `components/`.
-- SEO: Open Graph & Twitter Card meta tags required for all story pages.
+- JavaScript (v8+), D3.js (v7), ECharts, Python.
+- Features: Deterministic Video Export, Modular Component Injection.
 
 ## Links
-- Repository: https://github.com/sorukumar/tennis-analytics
-- Sister Repo (Data): https://github.com/sorukumar/tml-data
 - Live Demos: https://sorukumar.github.io/tennis-analytics/
+- Repo: https://github.com/sorukumar/tennis-analytics
