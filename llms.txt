@@ -1,0 +1,28 @@
+# tennis-analytics
+
+Interactive Data Visualizations for Professional Tennis.
+
+## Overview
+This repository contains a technical summary of the `tennis-analytics` project, designed for LLMs, AI agents, and search engines.
+
+## Key Modules
+- **Greatness Race**: Trajectory analysis of New Gen (Alcaraz, Sinner) vs. Big 3.
+- **GSDI**: Grand Slam Dominance Index quantifying championship runs.
+- **NBI**: Nail-Biter Index measuring match drama through data.
+- **Geography**: 50-year evolution of ATP talent origins.
+- **Networks**: Player rivalry clusters and finals connections.
+
+## Tech Stack
+- **Languages**: JavaScript (v8+), HTML5, CSS3, Python (Data Prep).
+- **Libraries**: D3.js (v7), ECharts, Vis.js.
+- **Utilities**: `ExportEngine` (Video Export), `include.js` (Component Loading).
+
+## Technical Standards
+- Design System: Court Green (#1e5631), Ball Yellow (#f9c74f).
+- Components: Modular injection using `components/`.
+- SEO: Open Graph & Twitter Card meta tags required for all story pages.
+
+## Links
+- Repository: https://github.com/sorukumar/tennis-analytics
+- Sister Repo (Data): https://github.com/sorukumar/tml-data
+- Live Demos: https://sorukumar.github.io/tennis-analytics/

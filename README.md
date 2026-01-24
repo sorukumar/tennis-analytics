@@ -1,23 +1,76 @@
-# tennis-analytics
+# 🎾 tennis-analytics
 
-A project dedicated to exploring and visualizing tennis data.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/sorukumar/tennis-analytics?style=social)](https://github.com/sorukumar/tennis-analytics)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-yellow.svg)](https://sorukumar.github.io/tennis-analytics/)
 
-## Have an Idea for a New Tennis Visualization?
+**Game. Set. Data.** An open-source laboratory dedicated to unveiling the hidden patterns of professional tennis through interactive data stories.
 
-We'd love to hear your ideas! If you have a suggestion for a new way to visualize tennis data, please help us by creating a new issue.
+---
 
-**To submit your idea:**
+## 🚀 Live Visualizations
 
-1.  Go to the [Issues](https://github.com/sorukumar/tennis-analytics/issues) tab of this repository.
-2.  Click on the green "New issue" button.
-3.  Provide a clear and concise title for your visualization idea.
-4.  In the description, please tell us:
-    * What data you'd like to see visualized.
-    * What questions you hope this visualization would answer.
-    * (Optional) If you have any example visualizations in mind (even rough sketches or links).
-    * (Optional) Why you think this visualization would be valuable to the tennis community.
-5.  Click "Submit new issue".
+| Story | Live Link | Key Metric |
+| :--- | :--- | :--- |
+| **The Race to Greatness** | [View Story](https://sorukumar.github.io/tennis-analytics/greatness/) | Career Trajectories |
+| **Slam Power Rankings** | [View Story](https://sorukumar.github.io/tennis-analytics/gsdi/) | GSDI Dominance |
+| **Grand Slam Nail-Biters** | [View Story](https://sorukumar.github.io/tennis-analytics/nbi/) | NBI (Drama Index) |
+| **Geography of Talent** | [View Story](https://sorukumar.github.io/tennis-analytics/globaltop100evolution/) | Talent Evolution |
+| **Rivalry Networks** | [View Story](https://sorukumar.github.io/tennis-analytics/network/) | Player Connectivity |
+| **The Road to a Slam** | [View Story](https://sorukumar.github.io/tennis-analytics/gs-breakthrough/) | Breakthrough Age |
 
-You can also see all the currently suggested visualization ideas and their status by visiting the [Issues](https://github.com/sorukumar/tennis-analytics/issues) tab. We encourage you to browse existing requests to avoid duplicates and to add your thoughts or support to ideas that resonate with you!
+---
 
-Thank you for your contributions!
+## ✨ Key Features
+
+- **Interactive Storytelling**: Narrative-driven data explorations built with D3.js and ECharts.
+- **Advanced Export Engine**: Record HD videos of animations for social media with branded watermarks.
+- **Deep Analytics**: Introducing custom metrics like the *GSDI* (Dominance Index) and *NBI* (Drama Index).
+- **Mobile First**: All visualizations are optimized for mobile consumption with custom UI patterns.
+- **SEO & Social Ready**: Full Open Graph and Twitter Card integration for rich previews.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: D3.js v7, ECharts, Vanilla JS, CSS3 (Custom Design System).
+- **Data Engineering**: Python (located in the sister repo [tml-data](https://github.com/sorukumar/tml-data)).
+- **UI Architecture**: Modular component injection for headers, footers, and sharing tools.
+
+---
+
+## 🤖 For AI & LLMs
+
+This repository is optimized for AI discovery.
+- **Knowledge Guide**: See [`readmeLLM.md`](readmeLLM.md) for technical patterns.
+- **AI Skill**: See [`.github/skills/`](.github/skills/tennis-analysis/SKILL.md) for agentic capabilities.
+- **Technical Summary**: See [`llms.txt`](llms.txt).
+
+---
+
+## 🤝 Contributing
+
+We love new ideas! Whether it's a new visualization technique or a data question you want answered:
+
+1.  Browse [Open Issues](https://github.com/sorukumar/tennis-analytics/issues).
+2.  Suggest a new "Data Story" via the Issue tracker.
+3.  Check the [TODO.md](TODO.md) for the project roadmap.
+
+---
+
+## 📜 Citation
+
+If you use this project for research or articles, please cite it:
+
+```bibtex
+@software{Kumar_Tennis_Analytics_Data_2024,
+  author = {Kumar, Saurabh},
+  title = {{Tennis Analytics: Data, Analysis and Visualization}},
+  url = {https://github.com/sorukumar/tennis-analytics},
+  version = {1.0.0},
+  year = {2024}
+}
+```
+
+---
+*Created with ❤️ for the tennis community by [Saurabh Kumar](https://x.com/sorukumar)*

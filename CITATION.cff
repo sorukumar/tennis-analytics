@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Kumar"
+  given-names: "Saurabh"
+title: "Tennis Analytics: Data, Analysis and Visualization"
+abstract: "An open-source platform hosting interactive data stories and professional visualizations of ATP/WTA tennis statistics. Includes advanced metrics like GSDI (Grand Slam Dominance Index) and NBI (Nail-Biter Index)."
+version: 1.0.0
+date-released: 2024-10-27
+url: "https://github.com/sorukumar/tennis-analytics"
+repository-code: "https://github.com/sorukumar/tennis-analytics"
+license: MIT
+keywords:
+  - "tennis data"
+  - "data visualization"
+  - "D3.js"
+  - "sports analytics"
+  - "ATP"
+  - "WTA"
+  - "Grand Slam"
+  - "interactive storytelling"

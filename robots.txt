@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sorukumar.github.io/tennis-analytics/sitemap.xml
