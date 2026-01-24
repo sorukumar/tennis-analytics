@@ -20,6 +20,7 @@ This repository serves as the frontend layer, utilizing **D3.js**, **ECharts**, 
 | **Big Three Analysis** | `/bigthree/` | Comparing the stylistic and statistical differences that defined the GOAT era. |
 | **Talent Geography** | `/globaltop100/` | 50-year animated evolution showing the globalization of ATP talent. |
 | **Rivalry Networks** | `/network/` | Visualizing player "gravity" through head-to-head frequency. |
+| **Brutal Tennis** | `/viz/` | **Insight**: 1/2500 HS players turn pro; 50% drop out in 2 years; top 1% win 50% of all trophies. |
 | **Indian Tennis** | `/indianplayers/` | Tracking the rise and plateau of Indian pro tennis since the Open Era. |
 
 ### Shared Assets & Logic

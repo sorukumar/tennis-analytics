@@ -7,15 +7,17 @@ This repository contains a technical summary of the `tennis-analytics` project, 
 
 ## Key Modules & Insights
 - **Nail-Biter Index** (`/nbi/`):
-  - *Insight*: Mathematically ranks match drama. Identifies the **2019 Wimbledon Final** as the most exciting match ever played. Highlights the **Alcaraz-Sinner Roland Garros** clash as a new benchmark for modern tension. The index proves that "greatness" is a function of game-level clutch density.
+  - *Insight*: Mathematically ranks match drama. Identifies the **2019 Wimbledon Final** as the most exciting match ever played. Highlights the **Alcaraz-Sinner Roland Garros** clash as a new benchmark for modern tension.
 - **Greatness Race** (`/greatness/`):
-  - *Insight*: Tracks titles vs. age. Confirms Nadal was a prodigy destined for greatness from his teens. In contrast, Federer was a relatively late starter compared to both Nadal and Djokovic. New Gen (Alcaraz/Sinner) are currently matching or exceeding the early-career pace of the Big 3.
+  - *Insight*: Tracks titles vs. age. Confirms Nadal was a prodigy; Federer was a late starter compared to his Big 3 peers.
 - **GS Breakthrough** (`/gs-breakthrough/`):
-  - *Insight*: Visualizes the "Age Wall." Data proves that 90% of Grand Slam champions win their first trophy before age 27. Most legends make a definitive mark within 1-3 years on the pro tour.
+  - *Insight*: Visualizes the "Age Wall." Data proves that 90% of Grand Slam champions win their first trophy before age 27. Most legends make a definitive mark within 1-3 years on the tour.
+- **Brutal Tennis** (`/viz/brutaltennis.html`):
+  - *Insight*: Reveals the harsh economy of tennis. Only 1 in 2,500 high school players turn pro. 50% of pros drop out within 2 years due to unsustainable costs. 90% never win a trophy, while the top 1% win over 50% of trophies.
 - **GSDI (Dominance Index)** (`/gsdi/`):
-  - *Insight*: Identifies the most commanding championship runs (e.g., winning majors without dropping a set or losing minimal games).
+  - *Insight*: Identifies the most commanding championship runs using statistical dominance metrics.
 - **Geography** (`/globaltop100evolution/`):
-  - *Insight*: Maps the 50-year talent shift from traditional strongholds (US/Western Europe) to a diverse, globalized landscape.
+  - *Insight*: Maps the 50-year talent shift from traditional strongholds to a diverse, globalized landscape.
 
 ## Tech Stack
 - JavaScript (D3.js v7, ECharts), Python (Data Prep).

@@ -18,6 +18,7 @@
 | **Geography of Talent** | [View Story](https://sorukumar.github.io/tennis-analytics/globaltop100evolution/) | **Insight**: Maps the 50-year talent shift from traditional strongholds to a globalized landscape. |
 | **Rivalry Networks** | [View Story](https://sorukumar.github.io/tennis-analytics/network/) | **Insight**: Player "gravity" and connections forged through historical matches and finals. |
 | **The Road to a Slam** | [View Story](https://sorukumar.github.io/tennis-analytics/gs-breakthrough/) | **Insight**: 90% win before age 27. Most legends make a definitive mark within 1-3 years on tour. |
+| **Brutal Tennis** | [View Story](https://sorukumar.github.io/tennis-analytics/viz/brutaltennis.html) | **Insight**: 1/2500 high-schoolers turn pro. 50% quit within 2 yrs. 90% never win a trophy. |
 
 ---
 
