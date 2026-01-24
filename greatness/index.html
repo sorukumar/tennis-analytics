@@ -28,11 +28,36 @@
             height: 600px;
             width: 100%;
             position: relative;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .chart-container-medium {
-            height: 400px;
-            width: 100%;
+        .narrative-chapter {
+            margin-bottom: 80px;
+            padding-top: 20px;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(30, 86, 49, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .chapter-desc {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 900px;
+            margin-bottom: 30px;
+            line-height: 1.7;
         }
 
         .control-panel {
@@ -46,25 +71,19 @@
             flex-wrap: wrap;
         }
 
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
+        .slider-container {
+            flex: 1 1 80%;
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .slider-container label {
+            white-space: nowrap;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            min-width: 140px;
         }
 
         /* Tooltip refinement */
@@ -83,50 +102,12 @@
             line-height: 1.4;
         }
 
-        .grid line {
-            stroke: #e2e8f0;
-            stroke-opacity: 0.7;
-            shape-rendering: crispEdges;
-        }
-
-        .grid path {
-            stroke-width: 0;
-        }
-
-        .milestone-point {
-            transition: r 0.2s, stroke-width 0.2s;
-            cursor: pointer;
-        }
-
-        .milestone-point:hover {
-            r: 6;
-            stroke-width: 3;
-        }
-
-        .legend-item {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-
-        .y-axis path,
-        .y-axis line {
-            stroke: #cbd5e1;
-        }
-
-        .x-axis path,
-        .x-axis line {
-            stroke: #cbd5e1;
+        @media (max-width: 992px) {
+            .slider-container {
+                flex: 1 1 100%;
+                order: 2;
+                margin-top: 10px;
+            }
         }
     </style>
 
@@ -141,77 +122,63 @@
         <div class="container-body">
             <!-- Hero Section -->
             <section class="article-hero">
-                <h1>The Race to Greatness</h1>
-                <div class="accent-rule"></div>
-                <p class="lead-text">
-                    Comparing the career trajectories of <strong>Carlos Alcaraz</strong> and <strong>Jannik
-                        Sinner</strong>
-                    against the titans of tennis history. Are they ahead of the curve?
-                </p>
+                <div class="container">
+                    <h1>The Race to Greatness</h1>
+                    <div class="accent-rule"></div>
+                    <p class="lead-text">
+                        Carlos Alcaraz and Jannik Sinner are chasing the giants.
+                        This data-driven story tracks their trajectories against the titans of tennis history.
+                    </p>
+                </div>
             </section>
 
-            <!-- Chart 1: Trajectory -->
-            <section class="mb-5">
-                <div class="section-title">Career Trajectory</div>
-                <p class="section-description">
-                    Follow the path of each player match-by-match.
-                    <strong>X-Axis:</strong> Age, <strong>Y-Axis:</strong> Cumulative Matches Played.
-                    Milestones markers show efficiency (e.g., winning a Slam earlier in their career).
+            <!-- The Early Sprint -->
+            <section class="narrative-chapter">
+                <h2>The Early Sprint</h2>
+                <p class="chapter-desc">
+                    <strong>Legends start fast.</strong> Alcaraz and Sinner are tracking the early pace set by the Big
+                    Three. Borg, till he retired at 26, was ahead of all of them.
                 </p>
+                <div id="gs-chase-chart" class="chart-container-large"></div>
+            </section>
 
+            <!-- Who Led at Your Age? -->
+            <section class="narrative-chapter">
+                <h2>Who Led at Your Age?</h2>
+                <p class="chapter-desc">
+                    <strong>The hierarchy shifts.</strong> Press "Run the Race" to watch the lead change.
+                    Nadal was a prodigy. Djokovic was steady. Federer was a late bloomer.
+                </p>
                 <div class="card p-4">
                     <div class="control-panel">
-                        <button id="play-button" class="btn btn-primary">
-                            <i class="fas fa-play"></i> Play Animation
+                        <button id="race-play-button" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run the Race
                         </button>
-                        <div style="flex-grow: 1;">
-                            <label for="age-slider" class="form-label">Age: <span id="age-display">16.0</span>
-                                years</label>
-                            <input type="range" class="form-range w-100" id="age-slider" min="16" max="40" step="0.1"
-                                value="40">
+                        <button id="btn-record-race" class="btn btn-outline" title="Record video">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <div class="slider-container">
+                            <label for="race-age-slider" class="form-label">Age: <span id="race-age-display"
+                                    style="font-weight: 800; color: var(--primary-color); display: inline-block; min-width: 40px;">16.0</span>
+                                y</label>
+                            <input type="range" class="form-range" id="race-age-slider" min="16" max="40" step="0.1"
+                                value="16" style="flex-grow: 1;">
                         </div>
                     </div>
-
-                    <div id="trajectory-chart" class="chart-container-large"></div>
-
-                    <div id="trajectory-legend" class="mt-3 d-flex flex-wrap justify-content-center">
-                        <!-- Legend will be injected here -->
-                    </div>
+                    <div id="big-titles-chart" class="chart-container-large"></div>
                 </div>
             </section>
 
-            <!-- Row 2 -->
-            <div class="row" style="display: flex; gap: 30px; flex-wrap: wrap;">
-                <!-- Chart 2: GS Chase -->
-                <div class="col" style="flex: 1; min-width: 400px;">
-                    <section class="mb-5">
-                        <div class="section-title">The Grand Slam Chase</div>
-                        <p class="section-description">Cumulative Grand Slam titles by age.</p>
-                        <div class="card p-4">
-                            <div id="gs-chase-chart" class="chart-container-medium"></div>
-                        </div>
-                    </section>
-                </div>
+            <!-- The Big Title Count -->
+            <section class="narrative-chapter">
+                <h2>The Big Title Count</h2>
+                <p class="chapter-desc">
+                    <strong>Total dominance is in the details.</strong> This tracks every Major, Master, and Final.
+                    Hover over a line to see the ratio of trophies in each cabinet. It reveals who specialized and who
+                    conquered everywhere.
+                </p>
 
-                <!-- Chart 3: Big Titles -->
-                <div class="col" style="flex: 1; min-width: 400px;">
-                    <section class="mb-5">
-                        <div class="section-title">Big Titles "Speedometer"</div>
-                        <p class="section-description">Combined Slams, Masters, and ATP Finals.</p>
-                        <div class="card p-4">
-                            <div id="big-titles-chart" class="chart-container-medium"></div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <!-- Chart 4: Snapshot -->
-            <section class="mb-5">
-                <div class="section-title">Dominance Snapshot (Age 22)</div>
-                <p class="section-description">How they compared at the exact same age.</p>
-                <div class="card p-4">
-                    <div id="snapshot-chart" class="chart-container-medium"></div>
-                </div>
+                <div id="trajectory-chart" class="chart-container-large"></div>
             </section>
 
             <!-- About Data -->
@@ -233,6 +200,7 @@
     <social-share></social-share>
 
     <!-- Viz Scripts -->
+    <script src="../utils/export_engine.js"></script>
     <script src="js/race_charts.js"></script>
 </body>
 
