@@ -37,6 +37,8 @@
         .narrative-chapter {
             margin-bottom: 80px;
             padding-top: 20px;
+            text-align: center;
+            /* Center headings */
         }
 
         .chapter-tag {
@@ -55,9 +57,12 @@
         .chapter-desc {
             font-size: 1.1rem;
             color: #555;
-            max-width: 900px;
-            margin-bottom: 30px;
+            max-width: 750px;
+            margin: 0 auto 40px;
+            /* Centered container */
             line-height: 1.7;
+            text-align: center;
+            /* Centered text */
         }
 
         .control-panel {
@@ -84,6 +89,33 @@
             margin-bottom: 0;
             font-size: 0.9rem;
             min-width: 140px;
+        }
+
+        /* Segmented Control */
+        .metric-toggle {
+            display: inline-flex;
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: 30px;
+            gap: 2px;
+        }
+
+        .metric-btn {
+            padding: 6px 16px;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .metric-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         /* Tooltip refinement */
@@ -134,21 +166,19 @@
 
             <!-- The Early Sprint -->
             <section class="narrative-chapter">
-                <h2>The Early Sprint</h2>
-                <p class="chapter-desc">
-                    <strong>Legends start fast.</strong> Alcaraz and Sinner are tracking the early pace set by the Big
-                    Three. Borg, till he retired at 26, was ahead of all of them.
-                </p>
+                <h2>The Grand Slam Sprint</h2>
+                <p class="chapter-desc"><strong>Legends are forged early.</strong> This tracks Grand Slam counts by age,
+                    showing Alcaraz and Sinner chasing the historic pace of the Big 3 and the "Borg Benchmark"—the gold
+                    standard of early-career dominance.</p>
                 <div id="gs-chase-chart" class="chart-container-large"></div>
             </section>
 
-            <!-- Who Led at Your Age? -->
+            <!-- The Big Title Race -->
             <section class="narrative-chapter">
-                <h2>Who Led at Your Age?</h2>
-                <p class="chapter-desc">
-                    <strong>The hierarchy shifts.</strong> Press "Run the Race" to watch the lead change.
-                    Nadal was a prodigy. Djokovic was steady. Federer was a late bloomer.
-                </p>
+                <h2>The Big Title Race</h2>
+                <p class="chapter-desc"><strong>The hierarchy of greatness shifts with every year.</strong> Press "Run
+                    the Race" to watch the lead change. This combines <strong>Grand Slams, Masters 1000s, and ATP
+                        Finals</strong> into a single metric of elite dominance at every age.</p>
                 <div class="card p-4">
                     <div class="control-panel">
                         <button id="race-play-button" class="btn btn-primary">
@@ -157,6 +187,11 @@
                         <button id="btn-record-race" class="btn btn-outline" title="Record video">
                             <i class="fas fa-video"></i>
                         </button>
+
+                        <div class="metric-toggle">
+                            <button class="metric-btn active" data-metric="big_titles">Big Titles</button>
+                            <button class="metric-btn" data-metric="gs">Slams Only</button>
+                        </div>
                         <div class="slider-container">
                             <label for="race-age-slider" class="form-label">Age: <span id="race-age-display"
                                     style="font-weight: 800; color: var(--primary-color); display: inline-block; min-width: 40px;">16.0</span>
@@ -169,14 +204,12 @@
                 </div>
             </section>
 
-            <!-- The Big Title Count -->
+            <!-- The Blueprint of Dominance -->
             <section class="narrative-chapter">
-                <h2>The Big Title Count</h2>
-                <p class="chapter-desc">
-                    <strong>Total dominance is in the details.</strong> This tracks every Major, Master, and Final.
-                    Hover over a line to see the ratio of trophies in each cabinet. It reveals who specialized and who
-                    conquered everywhere.
-                </p>
+                <h2>The Blueprint of Dominance</h2>
+                <p class="chapter-desc"><strong>A legend’s legacy is built on consistency.</strong> This cumulative
+                    trajectory of "Big Titles" (GS + Masters + Finals) reveals the signature of each career. Hover over
+                    any path to see the breakdown of trophies and career-defining milestones.</p>
 
                 <div id="trajectory-chart" class="chart-container-large"></div>
             </section>

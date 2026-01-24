@@ -76,7 +76,9 @@ let STATE = {
     isPlaying: false,
     isRecording: false, // For deterministic recording (disables D3 transitions)
     currentAge: 16.0,
+    minAge: 16.0,
     maxAge: 40.0,
+    raceMetric: 'big_titles', // 'big_titles' or 'gs'
     timer: null,
     tooltip: null,
     storyPoints: [], // Array of ages to stop at (e.g., Alcaraz's age, Sinner's age)
@@ -144,12 +146,18 @@ async function loadData() {
 function initCharts() {
     if (!STATE.data || !STATE.data.players) return;
 
-    // Detect max age from data to set slider
-    const ages = [];
+    // Detect min/max age from data to set slider
+    const startAges = [];
+    const endAges = [];
     Object.values(STATE.data.players).forEach(p => {
-        if (p.trajectory.length) ages.push(p.trajectory[p.trajectory.length - 1].age);
+        if (p.trajectory.length) {
+            startAges.push(p.trajectory[0].age);
+            endAges.push(p.trajectory[p.trajectory.length - 1].age);
+        }
     });
-    STATE.maxAge = Math.ceil(Math.max(...ages));
+    STATE.minAge = 17.0; // Optimized start: Captures first breakthroughs (Borg) without empty years
+    STATE.maxAge = Math.ceil(Math.max(...endAges));
+    STATE.currentAge = STATE.minAge;
 
     // Identify individual milestones for hero players
     STATE.storyPoints = Object.keys(STATE.data.players)
@@ -165,7 +173,13 @@ function initCharts() {
         .sort((a, b) => a.age - b.age);
 
     const slider = document.getElementById("race-age-slider");
-    if (slider) slider.max = STATE.maxAge;
+    if (slider) {
+        slider.min = STATE.minAge;
+        slider.max = STATE.maxAge;
+        slider.value = STATE.minAge;
+    }
+    const ageDisplay = document.getElementById("race-age-display");
+    if (ageDisplay) ageDisplay.textContent = STATE.minAge.toFixed(1);
 
     initTrajectoryChart();
     initGSChaseChart();
@@ -222,7 +236,7 @@ function setupControls() {
 
     function startAnimation() {
         if (STATE.currentAge >= STATE.maxAge - 0.5) {
-            STATE.currentAge = 16.0;
+            STATE.currentAge = STATE.minAge;
             STATE.storyIndex = 0;
         }
 
@@ -271,7 +285,7 @@ function setupControls() {
 
             // Animation controller for deterministic recording
             const step = 0.1;
-            const startAge = 16.0;
+            const startAge = STATE.minAge;
             const endAge = STATE.maxAge;
             const totalFrames = Math.ceil((endAge - startAge) / step);
 
@@ -311,6 +325,34 @@ function setupControls() {
                 });
         });
     }
+
+    // Metric Toggle logic
+    const metricBtns = document.querySelectorAll(".metric-btn");
+    metricBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const metric = btn.getAttribute("data-metric");
+            if (STATE.raceMetric === metric) return;
+
+            // Update UI
+            metricBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // Update state
+            STATE.raceMetric = metric;
+
+            // Switch domain based on metric
+            if (raceChart.x) {
+                const maxVal = metric === 'gs' ? 25 : 75;
+                raceChart.x.domain([0, maxVal]);
+                // Transition the axis
+                raceChart.g.select(".x-axis")
+                    .transition().duration(500)
+                    .call(d3.axisBottom(raceChart.x).ticks(5));
+            }
+
+            updateCharts(STATE.currentAge);
+        });
+    });
 }
 
 function updateCharts(age) {
@@ -333,7 +375,7 @@ function initTrajectoryChart() {
 
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 600;
-    const margin = { top: 40, right: 100, bottom: 50, left: 70 };
+    const margin = { top: 40, right: 100, bottom: 50, left: 100 };
 
     const svg = d3.select("#trajectory-chart").append("svg")
         .attr("width", "100%")
@@ -345,21 +387,29 @@ function initTrajectoryChart() {
     const g = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const x = d3.scaleLinear().domain([15, STATE.maxAge]).range([0, width - margin.left - margin.right]);
+    // Piecewise Linear Scale: Gives 75% of space to the "Breakthrough Era" (17-26) where lines overlap most
+    const x = d3.scaleLinear()
+        .domain([STATE.minAge, 26, STATE.maxAge])
+        .range([0, (width - margin.left - margin.right) * 0.75, width - margin.left - margin.right]);
+
     // Domain for Big Titles (Djokovic has > 70)
     const y = d3.scaleLinear().domain([0, 75]).range([height - margin.top - margin.bottom, 0]);
+
+    // Custom ticks for the split axis
+    let tickValues = [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 35, 40].filter(d => d >= STATE.minAge && d <= STATE.maxAge);
+    if (!tickValues.includes(STATE.minAge)) tickValues.unshift(STATE.minAge);
 
     // Grid lines
     g.append("g").attr("class", "grid")
         .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-        .call(d3.axisBottom(x).ticks(10).tickSize(-(height - margin.top - margin.bottom)).tickFormat(""));
+        .call(d3.axisBottom(x).tickValues(tickValues).tickSize(-(height - margin.top - margin.bottom)).tickFormat(""));
     g.append("g").attr("class", "grid")
         .call(d3.axisLeft(y).ticks(10).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
 
     // Axes
     g.append("g")
         .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-        .call(d3.axisBottom(x).ticks(10).tickFormat(d => d + "y"))
+        .call(d3.axisBottom(x).tickValues(tickValues).tickFormat(d => d + "y"))
         .style("font-size", "12px");
 
     g.append("g")
@@ -396,172 +446,155 @@ function initTrajectoryChart() {
         const player = STATE.data.players[name];
         const color = CONFIG.colors[name] || CONFIG.defaultColor;
 
-        // Dimmed full path
-        g.append("path")
-            .datum(player.trajectory)
-            .attr("fill", "none")
-            .attr("stroke", color)
-            .attr("stroke-width", 1)
-            .attr("d", line)
-            .attr("opacity", 0.1);
-
         // Active path
         trajChart.paths[name] = g.append("path")
+            .datum(player.trajectory)
             .attr("fill", "none")
             .attr("stroke", color)
             .attr("stroke-width", (name === "Carlos Alcaraz" || name === "Jannik Sinner") ? 4 : 2)
             .attr("stroke-dasharray", CONFIG.benchmarkPlayers.includes(name) ? "4,4" : "none")
             .attr("stroke-linecap", "round")
-            .attr("opacity", 0);
+            .attr("opacity", 1)
+            .attr("class", `traj-path traj-path-${name.replace(/\s/g, '-')}`)
+            .attr("d", line);
 
-        // Milestone group
-        trajChart.milestones[name] = g.append("g").attr("class", `milestones-${name.replace(/\s/g, '-')}`);
-
+        // Milestone markers (Breadcrumbs)
         player.milestones.forEach(m => {
-            trajChart.milestones[name].append("circle")
+            const isMajor = m.type === "First Grand Slam" || m.type === "World No. 1 Reach";
+
+            // Find the trajectory point at this age to get the Y value
+            const trajPoint = player.trajectory.find(p => Math.abs(p.age - m.age) < 0.2) ||
+                player.trajectory.reduce((prev, curr) => Math.abs(curr.age - m.age) < Math.abs(prev.age - m.age) ? curr : prev);
+
+            const bigTitlesAtAge = (trajPoint.big_titles !== undefined) ? trajPoint.big_titles : (trajPoint.gs + trajPoint.masters + (trajPoint.finals || 0));
+
+            g.append("circle")
                 .attr("cx", x(m.age))
-                .attr("cy", d => {
-                    // Find closest trajectory point
-                    const match = player.trajectory.reduce((prev, curr) =>
-                        Math.abs(curr.age - m.age) < Math.abs(prev.age - m.age) ? curr : prev
-                    );
-                    return y(match.big_titles || 0);
-                })
-                .attr("r", 4)
-                .attr("fill", "#fff")
+                .attr("cy", y(bigTitlesAtAge))
+                .attr("r", isMajor ? 5 : 3)
+                .attr("fill", isMajor ? color : "#fff")
                 .attr("stroke", color)
-                .attr("stroke-width", 2)
-                .attr("class", "milestone-point")
-                .style("opacity", 0)
-                .on("mouseover", (event) => {
-                    STATE.tooltip.transition().duration(200).style("opacity", .95);
-                    STATE.tooltip.html(`
-                        <div style="font-weight:bold; color:${color}">${name}</div>
-                        <div style="font-size:0.8rem">${m.type}: <strong>${m.name}</strong></div>
-                        <div style="font-size:0.75rem; color:#666">
-                            Age: ${m.age.toFixed(1)}<br>
-                            Matches: ${m.match_count} (Efficiency Context)
-                        </div>
-                    `)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", () => {
-                    STATE.tooltip.transition().duration(500).style("opacity", 0);
-                });
+                .attr("stroke-width", 1.5)
+                .attr("class", `milestone-dot milestone-${name.replace(/\s/g, '-')}`)
+                .style("opacity", 0.6) // Made slightly more subtle to avoid clutter
+                .style("pointer-events", "none"); // Let the scrub overlay handle interactions
         });
-
-        // Current Position Dot (Avatar)
-        trajChart.dots[name] = g.append("circle")
-            .attr("r", 15)
-            .attr("fill", `url(#traj-${name.replace(/\s/g, '-')})`)
-            .attr("stroke", color)
-            .attr("stroke-width", 2)
-            .style("display", "none")
-            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.3))");
-
-        // Label
-        trajChart.labels[name] = g.append("text")
-            .text(name.split(" ").pop())
-            .attr("font-size", "12px")
-            .attr("font-weight", "800")
-            .attr("fill", color)
-            .style("display", "none");
     });
 
-    // Render full trajectory (static)
-    Object.keys(STATE.data.players).filter(name => FILTERED_PLAYERS.includes(name)).forEach(name => {
-        const player = STATE.data.players[name];
-        const lastPoint = player.trajectory[player.trajectory.length - 1];
-        const color = CONFIG.colors[name] || CONFIG.defaultColor;
+    // Focus Elements for Scrubbing (OUTSIDE loop)
+    const focusLine = g.append("line")
+        .attr("class", "focus-line")
+        .attr("y1", 0)
+        .attr("y2", height - margin.top - margin.bottom)
+        .attr("stroke", "#94a3b8")
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "4,4")
+        .style("opacity", 0);
 
-        trajChart.paths[name]
-            .datum(player.trajectory)
-            .attr("d", line)
-            .attr("opacity", 1);
+    const focusPoint = g.append("circle")
+        .attr("r", 6)
+        .attr("fill", "#fff")
+        .attr("stroke-width", 3)
+        .style("opacity", 0)
+        .style("filter", "drop-shadow(0 0 4px rgba(0,0,0,0.2))");
 
-        const val = (lastPoint.big_titles !== undefined) ? lastPoint.big_titles : ((lastPoint.gs || 0) + (lastPoint.masters || 0) + (lastPoint.finals || 0));
+    // Interaction Overlay
+    const bisectAge = d3.bisector(d => d.age).left;
 
-        trajChart.dots[name]
-            .attr("cx", x(lastPoint.age))
-            .attr("cy", y(val))
-            .attr("opacity", 1)
-            .style("display", "block");
+    g.append("rect")
+        .attr("width", width - margin.left - margin.right)
+        .attr("height", height - margin.top - margin.bottom)
+        .attr("fill", "transparent")
+        .style("cursor", "crosshair")
+        .on("mousemove", function (event) {
+            const mouseX = d3.pointer(event)[0];
+            const mouseY = d3.pointer(event)[1];
+            const ageAtMouse = x.invert(mouseX);
 
-        trajChart.labels[name]
-            .attr("x", x(lastPoint.age) + 18)
-            .attr("y", y(val) + 5)
-            .attr("opacity", 1)
-            .style("display", "block");
+            let closest = { distance: Infinity, player: null, point: null };
 
-        // Show all milestones
-        trajChart.milestones[name].selectAll("circle").style("opacity", 1);
-    });
+            Object.keys(STATE.data.players).filter(name => FILTERED_PLAYERS.includes(name)).forEach(name => {
+                const player = STATE.data.players[name];
+                const idx = bisectAge(player.trajectory, ageAtMouse);
+                const d0 = player.trajectory[idx - 1];
+                const d1 = player.trajectory[idx];
+                const d = (d0 && d1) ? (ageAtMouse - d0.age > d1.age - ageAtMouse ? d1 : d0) : (d0 || d1);
 
-    // Add Tooltip Area for the whole SVG to show player stats on hover of the lines
-    // Alternatively, rely on the milestone hover which is already there, but let's make it better.
-    // Let's add hover interaction to the paths themselves for 'Rich Tooltip'
-    Object.keys(STATE.data.players).filter(name => FILTERED_PLAYERS.includes(name)).forEach(name => {
-        const player = STATE.data.players[name];
-        const color = CONFIG.colors[name] || CONFIG.defaultColor;
+                if (d) {
+                    const py = y((d.big_titles !== undefined) ? d.big_titles : (d.gs + d.masters + (d.finals || 0)));
+                    const dist = Math.abs(mouseY - py);
+                    if (dist < closest.distance) {
+                        closest = { distance: dist, player: name, point: d };
+                    }
+                }
+            });
 
-        // Add an invisible wider stroke for better hover target
-        g.append("path")
-            .datum(player.trajectory)
-            .attr("fill", "none")
-            .attr("stroke", "transparent")
-            .attr("stroke-width", 15)
-            .attr("d", line)
-            .style("cursor", "pointer")
-            .on("mouseover", function (event) {
-                const stats = player.current_stats;
-                const lastPoint = player.trajectory[player.trajectory.length - 1];
+            if (closest.player && closest.distance < 100) {
+                const d = closest.point;
+                const name = closest.player;
+                const color = CONFIG.colors[name] || CONFIG.defaultColor;
 
-                const bigTitles = (lastPoint.big_titles !== undefined) ? lastPoint.big_titles : ((stats.gs || 0) + (stats.masters || 0) + (stats.finals || 0));
+                focusLine.attr("x1", x(d.age)).attr("x2", x(d.age)).style("opacity", 1);
+                focusPoint.attr("cx", x(d.age)).attr("cy", y(d.big_titles || 0))
+                    .attr("stroke", color).style("opacity", 1);
 
-                STATE.tooltip.transition().duration(200).style("opacity", .98);
+                g.selectAll(".traj-path").attr("opacity", 0.1).attr("stroke-width", 1);
+                g.select(`.traj-path-${name.replace(/\s/g, '-')}`).attr("opacity", 1).attr("stroke-width", 4);
+
+                const playerMilestones = STATE.data.players[name].milestones;
+                const milestone = playerMilestones.find(m => Math.abs(m.age - d.age) < 0.2);
+
+                STATE.tooltip.transition().duration(50).style("opacity", .98);
                 STATE.tooltip.html(`
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                        <img src="${CONFIG.getImagePath(name)}" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid ${color}">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 2px solid ${color}; padding-bottom: 8px;">
+                        <img src="${CONFIG.getImagePath(name)}" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid ${color}">
                         <div>
-                            <div style="font-weight:bold; color:${color}; font-size: 1.1rem;">${name}</div>
-                            <div style="font-size: 0.75rem; color: #666;">Age ${lastPoint.age.toFixed(1)}</div>
+                            <div style="font-weight:bold; color:#1a202c; font-size: 1.2rem;">${name}</div>
+                            <div style="font-size: 0.8rem; background: ${color}22; color: ${color}; padding: 2px 6px; border-radius: 4px; display: inline-block;">Age ${d.age.toFixed(1)}y</div>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.85rem;">
-                        <div style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px;">
-                            <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Big Titles</div>
-                            <div style="font-weight: 800; color: ${color}; font-size: 1.2rem;">${bigTitles}</div>
+                    ${milestone ? `
+                        <div style="background: ${color}11; border: 1px dashed ${color}; padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+                            <div style="font-size: 0.7rem; color: ${color}; text-transform: uppercase; font-weight: 800;">Milestone Hit</div>
+                            <div style="font-weight: 700; color: #1a202c;">${milestone.name}</div>
+                            <div style="font-size: 0.75rem; color: #666;">${milestone.type}</div>
                         </div>
-                        <div style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px;">
-                            <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Slams</div>
-                            <div style="font-weight: 700;">${stats.gs}</div>
+                    ` : ''}
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 6px; border-left: 3px solid ${color}">
+                            <div style="color: #64748b; font-size: 0.65rem; text-transform: uppercase;">Big Titles</div>
+                            <div style="font-weight: 900; color: #1e293b; font-size: 1.3rem;">${d.big_titles}</div>
                         </div>
-                        <div style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px;">
-                            <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Masters</div>
-                            <div style="font-weight: 700;">${stats.masters}</div>
+                        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 6px;">
+                            <div style="color: #64748b; font-size: 0.65rem; text-transform: uppercase;">GS</div>
+                            <div style="font-weight: 700; color: #334155;">${d.gs}</div>
                         </div>
-                        <div style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px;">
-                            <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Finals</div>
-                            <div style="font-weight: 700;">${stats.finals || 0}</div>
+                        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 6px;">
+                            <div style="color: #64748b; font-size: 0.65rem; text-transform: uppercase;">Masters</div>
+                            <div style="font-weight: 700; color: #334155;">${d.masters}</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 6px;">
+                            <div style="color: #64748b; font-size: 0.65rem; text-transform: uppercase;">Finals</div>
+                            <div style="font-weight: 700; color: #334155;">${d.finals || 0}</div>
                         </div>
                     </div>
                 `)
                     .style("left", (event.pageX + 15) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-
-                // Highlight path
-                trajChart.paths[name].attr("stroke-width", (name === "Carlos Alcaraz" || name === "Jannik Sinner") ? 6 : 4);
-            })
-            .on("mousemove", function (event) {
-                STATE.tooltip.style("left", (event.pageX + 15) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function () {
-                STATE.tooltip.transition().duration(500).style("opacity", 0);
-                trajChart.paths[name].attr("stroke-width", (name === "Carlos Alcaraz" || name === "Jannik Sinner") ? 4 : 2);
+                    .style("top", (event.pageY + 15) + "px");
+            }
+        })
+        .on("mouseout", function () {
+            focusLine.style("opacity", 0);
+            focusPoint.style("opacity", 0);
+            STATE.tooltip.style("opacity", 0);
+            g.selectAll(".traj-path").attr("opacity", 1).attr("stroke-width", d => {
+                const n = d && d[0] ? (d[0].player_name || "") : "";
+                return (n === "Carlos Alcaraz" || n === "Jannik Sinner") ? 4 : 2;
             });
-    });
+            Object.keys(trajChart.paths).forEach(name => {
+                trajChart.paths[name].attr("opacity", 1).attr("stroke-width", (name === "Carlos Alcaraz" || name === "Jannik Sinner") ? 4 : 2);
+            });
+        });
 }
 
 
@@ -575,7 +608,7 @@ function initGSChaseChart() {
     if (!container) return;
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const margin = { top: 20, right: 80, bottom: 40, left: 40 };
+    const margin = { top: 40, right: 100, bottom: 50, left: 100 };
 
     const svg = d3.select("#gs-chase-chart").append("svg")
         .attr("width", "100%")
@@ -585,12 +618,17 @@ function initGSChaseChart() {
     createPlayerPatterns(svg, Object.keys(STATE.data.players), "gs");
 
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-    // Use Power Scale to stretch early years (Non-linear)
-    const x = d3.scalePow().exponent(0.35).domain([16, STATE.maxAge]).range([0, width - margin.left - margin.right]);
+
+    // Piecewise Linear Scale: Gives 75% of space to the "Breakthrough Era" (17-26)
+    const x = d3.scaleLinear()
+        .domain([STATE.minAge, 26, STATE.maxAge])
+        .range([0, (width - margin.left - margin.right) * 0.75, width - margin.left - margin.right]);
+
     const y = d3.scaleLinear().domain([0, 25]).range([height - margin.top - margin.bottom, 0]);
 
-    // Custom ticks for non-linear axis
-    const tickValues = [16, 18, 20, 22, 24, 26, 30, 35, 40].filter(d => d <= STATE.maxAge);
+    // Custom ticks for the split axis
+    let tickValues = [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 35, 40].filter(d => d >= STATE.minAge && d <= STATE.maxAge);
+    if (!tickValues.includes(STATE.minAge)) tickValues.unshift(STATE.minAge);
 
     g.append("g").attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
         .call(d3.axisBottom(x).tickValues(tickValues).tickFormat(d => d + "y"));
@@ -710,7 +748,7 @@ function initBigTitlesChart() {
     if (!container) return;
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const margin = { top: 20, right: 40, bottom: 20, left: 120 };
+    const margin = { top: 40, right: 100, bottom: 50, left: 120 }; // Kept left at 120 for long player names in bars
 
     const svg = d3.select("#big-titles-chart").append("svg")
         .attr("width", "100%").attr("height", "100%")
@@ -728,8 +766,8 @@ function initBigTitlesChart() {
         .attr("text-anchor", "end")
         .style("font-size", "140px")
         .style("font-weight", "900")
-        .style("fill", "#cbd5e1")
-        .style("opacity", 0.15)
+        .style("fill", "#94a3b8") // Slightly darker slate for better visibility
+        .style("opacity", 0.25)    // Increased from 0.15
         .style("pointer-events", "none");
 
     const x = d3.scaleLinear().domain([0, 75]).range([0, width - margin.left - margin.right]);
@@ -751,24 +789,27 @@ function updateBigTitlesChart(age) {
     // Get stats at current age
     let data = Object.keys(STATE.data.players).filter(name => FILTERED_PLAYERS.includes(name)).map(name => {
         const player = STATE.data.players[name];
-        let stat = { name, big_titles: 0, gs: 0, masters: 0, finals: 0 };
+        const lastTrajPoint = player.trajectory[player.trajectory.length - 1];
+        const maxRealAge = lastTrajPoint ? lastTrajPoint.age : 0;
+
+        let stat = { name, big_titles: 0, gs: 0, masters: 0, finals: 0, isPastMax: age > maxRealAge + 0.1 };
 
         for (let i = player.trajectory.length - 1; i >= 0; i--) {
             if (player.trajectory[i].age <= age) {
                 const p = player.trajectory[i];
                 const val = (p.big_titles !== undefined) ? p.big_titles : (p.gs + p.masters + p.finals);
-                stat = { name, big_titles: val, gs: p.gs, masters: p.masters, finals: p.finals };
+                stat = { ...stat, big_titles: val, gs: p.gs, masters: p.masters, finals: p.finals, maxRealAge };
                 break;
             }
         }
         return stat;
     });
 
-    data.sort((a, b) => b.big_titles - a.big_titles);
+    data.sort((a, d) => (d[STATE.raceMetric] || 0) - (a[STATE.raceMetric] || 0));
     y.domain(data.map(d => d.name));
 
     // Update Watermark
-    if (raceChart.watermark) raceChart.watermark.text(age.toFixed(1));
+    if (raceChart.watermark) raceChart.watermark.text(age.toFixed(1) + "y");
 
     const bars = g.selectAll(".bar").data(data, d => d.name);
     const labels = g.selectAll(".label").data(data, d => d.name);
@@ -791,8 +832,9 @@ function updateBigTitlesChart(age) {
         .merge(bars)
         .transition().duration(animDuration).ease(d3.easeLinear)
         .attr("y", d => y(d.name))
-        .attr("width", d => x(d.big_titles))
-        .attr("height", y.bandwidth());
+        .attr("width", d => x(d[STATE.raceMetric] || 0))
+        .attr("height", y.bandwidth())
+        .attr("opacity", d => d.isPastMax ? 0.5 : 1); // Spotlight effect: Focus on moving bars
 
     bars.exit().remove();
 
@@ -808,8 +850,9 @@ function updateBigTitlesChart(age) {
         .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))")
         .merge(avatars)
         .transition().duration(animDuration).ease(d3.easeLinear)
-        .attr("cx", d => x(d.big_titles))
-        .attr("cy", d => y(d.name) + y.bandwidth() / 2);
+        .attr("cx", d => x(d[STATE.raceMetric] || 0))
+        .attr("cy", d => y(d.name) + y.bandwidth() / 2)
+        .attr("opacity", d => d.isPastMax ? 0.6 : 1);
 
     avatars.exit().remove();
 
@@ -821,17 +864,21 @@ function updateBigTitlesChart(age) {
         .attr("y", d => y(d.name) + y.bandwidth() / 2 + 4)
         .style("font-size", "13px")
         .style("font-weight", "800")
-        .text(d => d.name.split(" ").pop())
+        .text(d => {
+            const isHero = CONFIG.heroPlayers.includes(d.name);
+            return d.name.split(" ").pop() + (d.isPastMax && isHero ? ` (${d.maxRealAge.toFixed(1)}y)` : "");
+        })
         .merge(labels)
         .transition().duration(animDuration)
-        .attr("y", d => y(d.name) + y.bandwidth() / 2 + 4);
+        .attr("y", d => y(d.name) + y.bandwidth() / 2 + 4)
+        .attr("opacity", d => d.isPastMax ? 0.7 : 1);
 
     labels.exit().remove();
 
     // --- VALUES ---
     valueLabels.enter().append("text")
         .attr("class", "val-label")
-        .attr("x", d => x(d.big_titles) + avatarRadius + 10)
+        .attr("x", d => x(d[STATE.raceMetric] || 0) + avatarRadius + 10)
         .attr("y", d => y(d.name) + y.bandwidth() / 2 + 5)
         .style("font-size", "16px")
         .style("font-weight", "900")
@@ -839,12 +886,16 @@ function updateBigTitlesChart(age) {
         .text(0)
         .merge(valueLabels)
         .transition().duration(animDuration).ease(d3.easeLinear)
-        .attr("x", d => x(d.big_titles) + avatarRadius + 10)
+        .attr("x", d => x(d[STATE.raceMetric] || 0) + avatarRadius + 10)
         .attr("y", d => y(d.name) + y.bandwidth() / 2 + 5)
         .tween("text", function (d) {
             const current = parseInt(this.textContent) || 0;
-            const i = d3.interpolateRound(current, d.big_titles);
-            return t => this.textContent = i(t) > 0 ? i(t) : "";
+            const i = d3.interpolateRound(current, d[STATE.raceMetric] || 0);
+            return t => {
+                const val = i(t);
+                const isHero = CONFIG.heroPlayers.includes(d.name);
+                this.textContent = (val > 0 ? val : "") + (d.isPastMax && isHero ? ` (${d.maxRealAge.toFixed(1)}y)` : "");
+            };
         });
 
     valueLabels.exit().remove();

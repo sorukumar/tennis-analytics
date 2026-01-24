@@ -582,30 +582,56 @@ class ExportEngine {
         }
     }
 
+    /**
+     * Draws a branded watermark on the frame.
+     */
     _drawWatermark(ctx, width, height) {
         ctx.save();
 
-        // Background strip (Bottom Right)
-        const stripHeight = 50;
-        const stripWidth = 350;
+        // Clean up URL for display (remove https:// and trailing /)
+        const displayUrl = this.config.siteUrl
+            .replace(/^https?:\/\//, '')
+            .replace(/\/$/, '');
+
+        // Setup font for measurement
+        ctx.font = "bold 20px 'Montserrat', Arial, sans-serif";
+        const textMetrics = ctx.measureText(displayUrl);
+        const textWidth = textMetrics.width;
+
+        // Background strip dimensions
+        const padding = 25;
+        const stripHeight = 54;
+        const stripWidth = Math.max(300, textWidth + (padding * 2) + 10);
+
         const x = width - stripWidth;
         const y = height - stripHeight;
 
-        // Glassmorphism effect
-        ctx.fillStyle = "rgba(30, 86, 49, 0.9)"; // Primary Green
-        ctx.fillRect(x, y, stripWidth, stripHeight);
+        // Glassmorphism effect with a subtle gradient
+        const gradient = ctx.createLinearGradient(x, y, x + stripWidth, y);
+        gradient.addColorStop(0, "rgba(20, 60, 35, 0.85)"); // Darker Green
+        gradient.addColorStop(1, "rgba(30, 86, 49, 0.95)"); // Primary Green
+
+        ctx.fillStyle = gradient;
+
+        // Draw rounded left side only for a "tab" look
+        ctx.beginPath();
+        ctx.moveTo(x + 15, y);
+        ctx.lineTo(width, y);
+        ctx.lineTo(width, height);
+        ctx.lineTo(x, height);
+        ctx.lineTo(x, y + 15);
+        ctx.quadraticCurveTo(x, y, x + 15, y);
+        ctx.fill();
 
         // Text
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 20px 'Montserrat', Arial, sans-serif";
         ctx.textAlign = "right";
         ctx.textBaseline = "middle";
+        ctx.fillText(displayUrl, width - padding, y + (stripHeight / 2) - 2);
 
-        ctx.fillText(this.config.siteUrl, width - 20, y + (stripHeight / 2));
-
-        // Small Color Accent
-        ctx.fillStyle = "#f9c74f"; // Accent Yellow
-        ctx.fillRect(x, y + stripHeight - 4, stripWidth, 4);
+        // Small Accent Line (Yellow)
+        ctx.fillStyle = "#f9c74f";
+        ctx.fillRect(x, height - 4, stripWidth, 4);
 
         ctx.restore();
     }
