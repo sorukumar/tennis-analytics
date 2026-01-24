@@ -7,7 +7,7 @@ This repository contains a technical summary of the `tennis-analytics` project, 
 
 ## Key Modules & Insights
 - **Slam Performance (GSDI)** (`/gsdi/`):
-  - *Insight*: Identifies the most mathematically "unbeatable" championship runs. It reveals that top-tier dominance (like Nadal at RG) involves winning >90% of sets, a feat achieved by fewer than 1% of winners.
+  - *Insight*: Identifies the most mathematically "unbeatable" championship runs. Highlights **Bjorn Borg** as the "Don Bradman of tennis," a player whose statistical peak rivaled Nadal's clay dominance and who could have been the GOAT had he continued playing past age 26.
 - **India's Tennis Journey** (`/indianplayers/`):
   - *Insight*: Analyzes the "Singles Gap." While India peaked in the 70s-80s (Amritraj era), data shows a modern struggle for Top 100 singles presence despite sustaining world-class doubles excellence.
 - **Nail-Biter Index** (`/nbi/`):

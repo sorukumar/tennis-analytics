@@ -16,7 +16,7 @@ This repository serves as the frontend layer, utilizing **D3.js**, **ECharts**, 
 | **Race to Greatness** | `/greatness/` | Nadal was a prodigy; Federer was a late starter compared to the other Big 3. Alcaraz/Sinner are currently on a record-breaking early pace. |
 | **GS Breakthrough** | `/gs-breakthrough/` | 90% of legends win their first Slam before age 27. Most greats make their mark within 1-3 years on tour. |
 | **Nail-Biter Index** | `/nbi/` | Identifies **2019 Wimbledon Final** as the most exciting match; highlights **Alcaraz-Sinner RG**. Metrics define drama through game-level clutch density. |
-| **Slam Power Rankings** | `/gsdi/` | GSDI index shows who didn't just win, but statistically crushed their opponents. |
+| **Slam Power Rankings** | `/gsdi/` | GSDI reveals **Bjorn Borg** as the 'Don Bradman of tennis,' matching Nadal-level dominance at his peak. |
 | **Big Three Analysis** | `/bigthree/` | Comparing the stylistic and statistical differences that defined the GOAT era. |
 | **Talent Geography** | `/globaltop100/` | 50-year animated evolution showing the globalization of ATP talent. |
 | **Rivalry Networks** | `/network/` | Visualizing player "gravity" through head-to-head frequency. |
