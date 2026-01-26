@@ -171,10 +171,11 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
 
     <script>
-        // Load both data files
+        // Load both data files with cache-busting to ensure latest ranking logic is reflected
+        const cacheBuster = `?v=${new Date().getTime()}`;
         Promise.all([
-            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/gs_nailbiters.json').then(response => response.json()),
-            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/iconic_gs_matches.json').then(response => response.json())
+            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/gs_nailbiters.json' + cacheBuster).then(response => response.json()),
+            fetch('https://raw.githubusercontent.com/sorukumar/tml-data/main/data/nbi/iconic_gs_matches.json' + cacheBuster).then(response => response.json())
         ]).then(([nailbitersData, iconicMatches]) => {
             // Create a map of iconic matches with unique key including tournament and date
             // Handle both old schema (match, tourney, date) and new schema (winner_name, loser_name, tourney_name, tourney_date)
