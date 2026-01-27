@@ -3,7 +3,7 @@
   <!-- Main Home Page -->
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,43 +11,43 @@
   <!-- Analysis Stories -->
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/greatness/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/gsdi/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/nbi/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/gs-breakthrough/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/globaltop100evolution/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/network/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/indianplayers/</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -55,13 +55,13 @@
   <!-- Standalone Viz & Camp -->
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/viz/brutaltennis.html</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sorukumar.github.io/tennis-analytics/summercamp/summercamp.html</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
