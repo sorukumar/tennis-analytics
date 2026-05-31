@@ -30,13 +30,22 @@
             padding: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
+        .chart-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
+        .chart-tab { padding: 10px 20px; font-weight: 700; color: #64748b; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.2s; font-size: 1.05rem; }
+        .chart-tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+        .chart-tab:hover { color: #1e293b; }
+        .chart-pane { display: none; }
+        .chart-pane.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .chart-container-large { height: 500px; width: 100%; position: relative; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); border: 1px solid #f1f5f9; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .mode-toggle { display: inline-flex; background: #f1f5f9; border-radius: 8px; padding: 4px; margin-bottom: 20px; }
+        .mode-btn { background: transparent; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 700; font-size: 0.95rem; cursor: pointer; color: #64748b; transition: all 0.2s; }
+        .mode-btn.active { background: white; color: #0f172a; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        .modern-slider:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .trajectory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
+
+        
 
         .chart-wrapper h3 {
             margin-bottom: 5px;
@@ -286,15 +295,18 @@
 
             <!-- Global Control -->
             <section class="global-controls sticky-top">
+                
                 <div class="slider-container">
-                    <div class="slider-header">
-                        <span class="slider-label">COMPARE AT CAREER AGE: <strong
-                                id="current-age-display">18.5</strong>y</span>
+                    <div class="mode-toggle" id="mode-toggle">
+                        <button class="mode-btn active" data-mode="age">⚖️ Age-Matched</button>
+                        <button class="mode-btn" data-mode="present">📅 Present Day</button>
                     </div>
-                    <input type="range" id="global-age-slider" min="16" max="21" step="0.1" value="18.5"
-                        class="modern-slider">
+                    <div class="slider-header" id="slider-header" style="transition: opacity 0.3s;">
+                        <span class="slider-label">COMPARE AT CAREER AGE: <strong id="current-age-display">18.5</strong>y</span>
+                    </div>
+                    <input type="range" id="global-age-slider" min="16" max="21" step="0.1" value="18.5" class="modern-slider">
                 </div>
-            </section>
+</section>
 
             <!-- Scouting Reports Section -->
             <section class="narrative-chapter">
