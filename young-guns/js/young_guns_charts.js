@@ -8,7 +8,8 @@ const CONFIG = {
         "Jannik Sinner": "#F97316",  // Carrot Orange (Benchmark)
         "Joao Fonseca": "#1E40AF",   // Royal Blue
         "Jakub Mensik": "#065F46",   // Forest Green
-        "Learner Tien": "#CA8A04"    // Vintage Gold
+        "Learner Tien": "#CA8A04",   // Vintage Gold
+        "Rafael Jodar": "#8B5CF6"    // Purple
     },
     benchmarks: ["Carlos Alcaraz", "Jannik Sinner"],
     primaryBenchmark: "Carlos Alcaraz",
@@ -18,7 +19,8 @@ const CONFIG = {
             "Jannik Sinner": "sinner.png",
             "Joao Fonseca": "fonseca.png",
             "Jakub Mensik": "mensik.png",
-            "Learner Tien": "tien.png"
+            "Learner Tien": "tien.png",
+            "Rafael Jodar": "jodar.png"
         };
         return `../assets/players/${map[name] || "generic.png"}`;
     }
@@ -86,6 +88,8 @@ function initCharts() {
 
     // Wins Trajectory
     initTrajectoryChart("wins-trajectory-chart", "atp_main_wins", "Cumulative ATP Wins", 50);
+    // Top 50 Wins Trajectory
+    initTrajectoryChart("top50-trajectory-chart", "top50_wins", "Top 50 Opponent Wins", 20);
     // Rank Trajectory
     initTrajectoryChart("rank-trajectory-chart", "rank", "ATP Ranking", 1000, true);
 }
@@ -146,30 +150,105 @@ function initTrajectoryChart(containerId, metric, yLabel, fixedYMax = null, isLo
         .attr("x1", x(STATE.currentAge))
         .attr("x2", x(STATE.currentAge));
 
+    // Defs for Image Clipping
+    if (svg.select("defs").empty()) svg.append("defs");
+    const defs = svg.select("defs");
+
     Object.keys(STATE.data.players).forEach(name => {
         const player = STATE.data.players[name];
         const color = CONFIG.colors[name] || "#cbd5e1";
         const isBenchmark = CONFIG.benchmarks.includes(name);
         const data = player.trajectory.filter(d => d.age <= STATE.maxAge);
+        const safeName = name.replace(/\s/g, '-');
 
+        // Add Clip Path for this player if not exists
+        if (defs.select(`#clip-${safeName}`).empty()) {
+            defs.append("clipPath")
+                .attr("id", `clip-${safeName}`)
+                .append("circle")
+                .attr("r", 14)
+                .attr("cx", 0)
+                .attr("cy", 0);
+        }
+
+        // Draw Line
         g.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", color)
             .attr("stroke-width", isBenchmark ? 1.5 : 3)
             .attr("stroke-dasharray", isBenchmark ? "4,4" : "none")
-            .attr("opacity", isBenchmark ? 0.3 : 1)
+            .attr("opacity", isBenchmark ? 0.4 : 1)
             .attr("d", line);
 
-        // Current point marker
-        const marker = g.append("circle")
-            .attr("class", `marker-${name.replace(/\s/g, '-')}`)
-            .attr("r", isBenchmark ? 3 : 5)
-            .attr("fill", color)
-            .attr("stroke", "#fff")
+        // Invisible Hover Path for Tooltips
+        g.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "transparent")
+            .attr("stroke-width", 20)
+            .attr("d", line)
+            .style("cursor", "crosshair")
+            .on("mouseover", () => STATE.tooltip.transition().duration(200).style("opacity", 1))
+            .on("mousemove", (event, d) => {
+                const ptr = d3.pointer(event);
+                const x0 = x.invert(ptr[0]);
+                const bisect = d3.bisector(d => d.age).left;
+                const i = bisect(d, x0, 1);
+                const d0 = d[i - 1], d1 = d[i];
+                let dp = d0;
+                if (d1) dp = x0 - d0.age > d1.age - x0 ? d1 : d0;
+                
+                const val = (dp[metric] % 1 !== 0) ? parseFloat(dp[metric]).toFixed(1) : dp[metric];
+
+                STATE.tooltip.html(`
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:5px; border-bottom:1px solid #eee; padding-bottom:5px;">
+                        <img src="${CONFIG.getImagePath(name)}" style="width:24px; height:24px; border-radius:50%; border:2px solid ${color};">
+                        <strong style="color:${color};">${name}</strong>
+                    </div>
+                    <div style="font-size:0.85rem;">
+                        <div>Age: <span style="font-weight:bold">${dp.age}y</span></div>
+                        <div>${yLabel}: <span style="font-weight:bold">${val}</span></div>
+                    </div>
+                `)
+                .style("left", (event.pageX + 15) + "px")
+                .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", () => STATE.tooltip.transition().duration(500).style("opacity", 0));
+
+        // Group for Current Point Marker (Image + Border + Label)
+        const markerGroup = g.append("g").attr("class", `marker-${safeName}`);
+
+        // Border Circle
+        const radius = isBenchmark ? 12 : 16;
+        markerGroup.append("circle")
+            .attr("r", radius)
+            .attr("fill", "#fff")
+            .attr("stroke", color)
             .attr("stroke-width", 2);
 
-        STATE.charts.push({ containerId, name, x, y, metric, marker, syncLine });
+        // Avatar Image
+        markerGroup.append("image")
+            .attr("xlink:href", CONFIG.getImagePath(name))
+            .attr("x", -radius + 2)
+            .attr("y", -radius + 2)
+            .attr("width", (radius - 2) * 2)
+            .attr("height", (radius - 2) * 2)
+            .attr("clip-path", `url(#clip-${safeName})`)
+            .on("error", function() { d3.select(this).style("display", "none"); });
+
+        // Add Name Label (for non-benchmarks, to make tracking lines easier)
+        if (!isBenchmark) {
+            markerGroup.append("text")
+                .attr("x", 20)
+                .attr("y", 4)
+                .attr("font-size", "11px")
+                .attr("font-weight", "bold")
+                .attr("fill", color)
+                .text(name.split(' ').pop()); // Last name only
+        }
+
+        STATE.charts.push({ containerId, name, x, y, metric, marker: markerGroup, syncLine });
     });
 }
 
@@ -182,9 +261,7 @@ function updateUI() {
         const d = player.trajectory[idx] || player.trajectory[player.trajectory.length - 1];
 
         if (d) {
-            c.marker
-                .attr("cx", c.x(d.age))
-                .attr("cy", c.y(Math.max(1, d[c.metric] || 1)));
+            c.marker.attr("transform", `translate(${c.x(d.age)}, ${c.y(Math.max(1, d[c.metric] || 1))})`);
         }
         c.syncLine.attr("x1", c.x(STATE.currentAge)).attr("x2", c.x(STATE.currentAge));
     });
