@@ -39,10 +39,74 @@
         .chart-container-large { height: 500px; width: 100%; position: relative; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); border: 1px solid #f1f5f9; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .mode-toggle { display: inline-flex; background: #f1f5f9; border-radius: 8px; padding: 4px; margin-bottom: 20px; }
+        .mode-toggle { display: inline-flex; background: #f1f5f9; border-radius: 8px; padding: 4px; flex-shrink: 0; }
         .mode-btn { background: transparent; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 700; font-size: 0.95rem; cursor: pointer; color: #64748b; transition: all 0.2s; }
         .mode-btn.active { background: white; color: #0f172a; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
         .modern-slider:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .compare-builder { display: none; }
+        .compare-top { display: none; }
+
+        .compare-select-wrap {
+            position: relative;
+        }
+
+        .compare-select-btn {
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #0f172a;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .compare-select-panel {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 270px;
+            max-height: 220px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+            padding: 8px;
+            z-index: 120;
+            display: none;
+            text-align: left;
+        }
+
+        .compare-select-panel.open {
+            display: block;
+        }
+
+        .player-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 8px;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .player-option:hover {
+            background: #f8fafc;
+        }
+
+        .compare-status {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .compare-status.alert {
+            color: #b91c1c;
+        }
 
 
         
@@ -59,36 +123,72 @@
             margin-bottom: 15px;
         }
 
+        .metric-note {
+            font-size: 0.82rem;
+            color: #475569;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            line-height: 1.45;
+        }
+
         .sticky-top {
             position: sticky;
             top: 80px;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 20px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
-        .slider-container {
-            max-width: 600px;
+        .controls-bar {
+            max-width: 900px;
             margin: 0 auto;
-            text-align: center;
+            padding: 0 16px;
         }
 
-        .slider-header {
-            margin-bottom: 15px;
+        .controls-row-1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .controls-row-2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .slider-inline-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 200px;
+            transition: opacity 0.3s;
         }
 
         .slider-label {
             font-weight: 800;
             color: #1e293b;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            font-size: 0.82rem;
         }
 
         .modern-slider {
             -webkit-appearance: none;
             appearance: none;
+            flex: 1;
             width: 100%;
             height: 8px;
             border-radius: 5px;
@@ -248,6 +348,7 @@
 
     <!-- Scripts -->
     <script src="../components/include.js"></script>
+    <script src="../components/social-share.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
@@ -266,15 +367,67 @@
                 </div>
             </section>
 
+            <!-- Global Control -->
+            <section class="global-controls sticky-top">
+                <div class="controls-bar">
+                    <!-- Row 1: Mode toggle + age slider -->
+                    <div class="controls-row-1">
+                        <div class="mode-toggle" id="mode-toggle">
+                            <button class="mode-btn active" data-mode="age">⚖️ Age-Matched</button>
+                            <button class="mode-btn" data-mode="present">📅 Present Day</button>
+                        </div>
+                        <div id="slider-header" class="slider-inline-wrap">
+                            <span class="slider-label">AGE: <strong id="current-age-display">18.5</strong>y</span>
+                            <input type="range" id="global-age-slider" min="16" max="21" step="0.1" value="18.5" class="modern-slider">
+                        </div>
+                    </div>
+                    <!-- Row 2: Player picker -->
+                    <div class="controls-row-2">
+                        <div class="compare-select-wrap">
+                            <button class="compare-select-btn" id="compare-select-btn" type="button">+ Players ▾</button>
+                            <div class="compare-select-panel" id="compare-select-panel">
+                                <div id="player-options"></div>
+                            </div>
+                        </div>
+                        <div class="compare-status" id="compare-status"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Big Stage Readiness Section -->
+            <section class="narrative-chapter">
+                <h2>Big Stage Readiness</h2>
+                <p class="chapter-desc">
+                    Two signals matter most under spotlight pressure: title conversion in elite events and how deep players regularly go in the biggest draws.
+                </p>
+
+                <div class="trajectory-grid">
+                    <div class="chart-wrapper">
+                        <h3>Championship Depth Meter</h3>
+                        <p class="chart-sub">Cumulative Grand Slam + Masters titles at selected comparison point</p>
+                        <div id="big-stage-readiness-chart" class="chart-container-large"></div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Career Depth in Big Events</h3>
+                        <p class="chart-sub">Career total deep finishes (R4, QF, SF, Final) in Slams + Masters</p>
+                        <div id="big-stage-depth-chart" class="chart-container-large"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Trajectory Sections -->
             <section class="narrative-chapter">
                 <h2>The Performance Trajectory</h2>
                 <p class="chapter-desc">
-                    Comparing the early-career pace of the "Next Wave" against <strong>Carlos Alcaraz</strong> and
-                    <strong>Jannik Sinner</strong>.
+                    From broad progress to elite quality: ranking rise, win volume, and wins against stronger opposition.
                 </p>
 
                 <div class="trajectory-grid">
+                    <div class="chart-wrapper">
+                        <h3>The Ranking Climb</h3>
+                        <p class="chart-sub">ATP Ranking Ascent (Entry into Elite)</p>
+                        <div id="rank-trajectory-chart" class="chart-container-large"></div>
+                    </div>
                     <div class="chart-wrapper">
                         <h3>Match-Win Velocity</h3>
                         <p class="chart-sub">Main Draw ATP Wins by Age</p>
@@ -286,27 +439,12 @@
                         <div id="top50-trajectory-chart" class="chart-container-large"></div>
                     </div>
                     <div class="chart-wrapper">
-                        <h3>The Ranking Climb</h3>
-                        <p class="chart-sub">ATP Ranking Ascent (Entry into Elite)</p>
-                        <div id="rank-trajectory-chart" class="chart-container-large"></div>
+                        <h3>Elite Wins</h3>
+                        <p class="chart-sub">Top 10 Opponent Wins by Age</p>
+                        <div id="top10-trajectory-chart" class="chart-container-large"></div>
                     </div>
                 </div>
             </section>
-
-            <!-- Global Control -->
-            <section class="global-controls sticky-top">
-                
-                <div class="slider-container">
-                    <div class="mode-toggle" id="mode-toggle">
-                        <button class="mode-btn active" data-mode="age">⚖️ Age-Matched</button>
-                        <button class="mode-btn" data-mode="present">📅 Present Day</button>
-                    </div>
-                    <div class="slider-header" id="slider-header" style="transition: opacity 0.3s;">
-                        <span class="slider-label">COMPARE AT CAREER AGE: <strong id="current-age-display">18.5</strong>y</span>
-                    </div>
-                    <input type="range" id="global-age-slider" min="16" max="21" step="0.1" value="18.5" class="modern-slider">
-                </div>
-</section>
 
             <!-- Scouting Reports Section -->
             <section class="narrative-chapter">
@@ -315,6 +453,7 @@
                     A deep dive into the technical and mental metrics of each player at the selected age.
                     How do their numbers stack up against Alcaraz's historic benchmarks?
                 </p>
+                <p class="metric-note"><strong>Clutch Win %</strong> = win rate in deciding sets (final set in best-of-3, fifth set in best-of-5) up to the selected snapshot.</p>
                 <div id="scouting-reports-container" class="scouting-grid">
                     <!-- Cards will be injected by JS -->
                 </div>
@@ -329,10 +468,13 @@
                     </div>
                     <div class="about-item">
                         <i class="fas fa-database"></i>
-                        <span>Updated through 2025 (ATP, WTA, Jeff Sackmann, Tennismylife)</span>
+                        <span>Updated through 2026 (ATP, WTA, Jeff Sackmann, Tennismylife)</span>
                     </div>
                 </div>
             </section>
+
+            <!-- Social Share FAB -->
+            <social-share></social-share>
         </div>
     </main>
 
