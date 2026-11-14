@@ -81,12 +81,12 @@ def _build_digest_section(
     return (
         f"{GEO_START}\n"
         '<section id="geo-data-digest" aria-label="Static statistical summary" '
-        'style="max-width:1100px;margin:24px auto;padding:0 16px;">\n'
+        'style="max-width:1200px;margin:24px auto;padding:0 20px;">\n'
         '  <details style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:14px 18px;">\n'
         f'    <summary style="cursor:pointer;font-weight:700;color:#1e5631;font-size:0.98rem;">{_esc(title)} (Static Snapshot &middot; {_esc(updated_iso)})</summary>\n'
         f'    <p style="margin:10px 0 6px;font-size:0.9rem;color:#334155;line-height:1.5;">{_esc(subtitle)}</p>\n'
         f"    {table_html}\n"
-        '    <p style="margin:12px 0 0;font-size:0.82rem;color:#475569;">\n'
+        '    <p style="margin:12px 0 0;font-size:0.82rem;color:#475569;overflow-wrap:anywhere;">\n'
         f'      Source: <a href="{TML_REPO_URL}/blob/main/data/{_esc(dataset_path)}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">sorukumar/tml-data ({_esc(dataset_path)})</a>\n'
         f'      &middot; Match data: <a href="{TML_SITE_URL}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">TennisMyLife</a>\n'
         f'      &middot; Query via AI/MCP: <a href="{MCP_REPO_URL}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">sorukumar/tennis-mcp</a>\n'
