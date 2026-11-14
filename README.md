@@ -13,6 +13,7 @@
 | Story | Live Link | Key Metric / Insight |
 | :--- | :--- | :--- |
 | **The Race to Greatness** | [View Story](https://sorukumar.github.io/tennis-analytics/greatness/) | **Insight**: Nadal was a prodigy; Federer was a relatively late starter compared to his Big 3 peers. |
+| **Young Guns: The Next Wave** | [View Story](https://sorukumar.github.io/tennis-analytics/young-guns/) | **Insight**: Age-for-age scouting comparing Fonseca, Mensik, Tien, and Jodar against Alcaraz and Sinner benchmarks. |
 | **Slam Power Rankings** | [View Story](https://sorukumar.github.io/tennis-analytics/gsdi/) | **Insight**: GSDI reveals **Bjorn Borg** as the 'Don Bradman of tennis,' with dominance levels rivaling Nadal on clay. |
 | **Grand Slam Nail-Biters** | [View Story](https://sorukumar.github.io/tennis-analytics/nbi/) | **Insight**: Ranks the **2019 Wimbledon Final** as the most exciting match ever; benchmarks the **Alcaraz-Sinner RG** clash as a modern epic. |
 | **Geography of Talent** | [View Story](https://sorukumar.github.io/tennis-analytics/globaltop100evolution/) | **Insight**: Maps the 50-year talent shift from traditional strongholds to a globalized landscape. |
@@ -41,12 +42,24 @@
 
 ---
 
-## 🤖 For AI & LLMs
+## 🤖 For AI, LLMs & MCP Clients
 
-This repository is optimized for AI discovery.
-- **Knowledge Guide**: See [`readmeLLM.md`](readmeLLM.md) for technical patterns.
-- **AI Skill**: See [`.github/skills/`](.github/skills/tennis-analysis/SKILL.md) for agentic capabilities.
-- **Technical Summary**: See [`llms.txt`](llms.txt).
+All visualization metrics are backed by open ATP datasets in [`sorukumar/tml-data`](https://github.com/sorukumar/tml-data) (200,105 matches since 1968 + 7,663 Match Charting Project matches) and queryable directly in Claude Desktop, Claude Code, Cursor, VS Code, or Antigravity via the zero-clone [`sorukumar/tennis-mcp`](https://github.com/sorukumar/tennis-mcp) server:
+
+```json
+{
+  "mcpServers": {
+    "tennis-mcp": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/sorukumar/tennis-mcp", "tennis-mcp"]
+    }
+  }
+}
+```
+
+- **Crawler & Agent Summary**: See [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt)
+- **Knowledge Guide**: See [`readmeLLM.md`](readmeLLM.md) for technical patterns
+- **AI Skill**: See [`.github/skills/`](.github/skills/tennis-analysis/SKILL.md) for agentic capabilities
 
 ---
 

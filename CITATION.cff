@@ -4,10 +4,10 @@ authors:
 - family-names: "Kumar"
   given-names: "Saurabh"
 title: "Tennis Analytics: Data, Analysis and Visualization"
-abstract: "An open-source platform hosting interactive data stories and professional visualizations of ATP/WTA tennis statistics. Includes advanced metrics like GSDI (Grand Slam Dominance Index) and NBI (Nail-Biter Index)."
-version: 1.0.0
-date-released: 2024-10-27
-url: "https://github.com/sorukumar/tennis-analytics"
+abstract: "An open-source platform hosting interactive data stories and visualizations of ATP Open Era tennis statistics (1968-2026), powered by sorukumar/tml-data. Includes custom metrics such as GSDI (Grand Slam Dominance Index) and NBI (Nail-Biter Index)."
+version: 1.1.0
+date-released: 2026-11-13
+url: "https://sorukumar.github.io/tennis-analytics/"
 repository-code: "https://github.com/sorukumar/tennis-analytics"
 license: MIT
 keywords:
@@ -16,6 +16,5 @@ keywords:
   - "D3.js"
   - "sports analytics"
   - "ATP"
-  - "WTA"
   - "Grand Slam"
   - "interactive storytelling"

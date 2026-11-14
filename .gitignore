@@ -1,3 +1,5 @@
 workingfolder/
 .DS_Store
 BigThree/
+__pycache__/
+*.py[cod]

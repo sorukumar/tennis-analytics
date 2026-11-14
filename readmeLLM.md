@@ -1,7 +1,7 @@
 # tennis-analytics Project Guide for LLMs
 
 ## Project Context
-`tennis-analytics` is a sophisticated open-source platform hosting interactive "data stories" about professional tennis. It transforms raw match data (processed in the sister repo `tml-data`) into high-end visual narratives.
+`tennis-analytics` is an open-source platform hosting interactive ATP "data stories" (1968–2026). It transforms pre-aggregated Open Era and Match Charting Project datasets from the sister repo `sorukumar/tml-data` (also exposed via `sorukumar/tennis-mcp`) into visual narratives.
 
 ## Project Overview
 This repository serves as the frontend layer, utilizing **D3.js**, **ECharts**, and **Vanilla JavaScript** to build responsive, aesthetically premium visualizations. The goal is to provide insights into player greatness, match drama, and historical trends that are "social-media ready."
@@ -14,13 +14,13 @@ This repository serves as the frontend layer, utilizing **D3.js**, **ECharts**, 
 | Module | Path | Key AI Insights |
 | :--- | :--- | :--- |
 | **Race to Greatness** | `/greatness/` | Nadal was a prodigy; Federer was a late starter compared to the other Big 3. Alcaraz/Sinner are currently on a record-breaking early pace. |
+| **Young Guns** | `/young-guns/` | Age-for-age scouting comparing Joao Fonseca, Jakub Mensik, Learner Tien, and Rafael Jodar against Alcaraz and Sinner benchmarks. |
 | **GS Breakthrough** | `/gs-breakthrough/` | 90% of legends win their first Slam before age 27. Most greats make their mark within 1-3 years on tour. |
 | **Nail-Biter Index** | `/nbi/` | Identifies **2019 Wimbledon Final** as the most exciting match; highlights **Alcaraz-Sinner RG**. Metrics define drama through game-level clutch density. |
 | **Slam Power Rankings** | `/gsdi/` | GSDI reveals **Bjorn Borg** as the 'Don Bradman of tennis,' matching Nadal-level dominance at his peak. |
-| **Big Three Analysis** | `/bigthree/` | Comparing the stylistic and statistical differences that defined the GOAT era. |
-| **Talent Geography** | `/globaltop100/` | 50-year animated evolution showing the globalization of ATP talent. |
-| **Rivalry Networks** | `/network/` | Visualizing player "gravity" through head-to-head frequency. |
-| **Brutal Tennis** | `/viz/` | **Insight**: 1/2500 HS players turn pro; 50% drop out in 2 years; top 1% win 50% of all trophies. |
+| **Talent Geography** | `/globaltop100evolution/` | 50-year animated evolution showing the globalization of ATP talent. |
+| **Rivalry Networks** | `/network/` | Visualizing player "gravity" through head-to-head frequency and Grand Slam finals. |
+| **Brutal Tennis** | `/viz/brutaltennis.html` | **Insight**: 1/2500 HS players turn pro; 50% drop out in 2 years; top 1% win 50% of all trophies. |
 | **Indian Tennis** | `/indianplayers/` | Tracking the rise and plateau of Indian pro tennis since the Open Era. |
 
 ### Shared Assets & Logic

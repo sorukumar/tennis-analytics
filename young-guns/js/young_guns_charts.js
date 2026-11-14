@@ -21,15 +21,17 @@ const CONFIG = {
     },
     benchmarks: ["Carlos Alcaraz", "Jannik Sinner"],
     getImagePath: (name) => {
-        const map = {
+        const bundled = {
             "Carlos Alcaraz": "alcaraz.png",
-            "Jannik Sinner": "sinner.png",
-            "Joao Fonseca": "fonseca.png",
-            "Jakub Mensik": "mensik.png",
-            "Learner Tien": "tien.png",
-            "Rafael Jodar": "jodar.png"
+            "Jannik Sinner": "sinner.png"
         };
-        return `../assets/players/${map[name] || "generic.png"}`;
+        if (bundled[name]) {
+            return `../assets/players/${bundled[name]}`;
+        }
+        const initials = name.split(/\s+/).filter(Boolean).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+        const bg = CONFIG.colors[name] || "#1E293B";
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bg}"/><text x="32" y="39" text-anchor="middle" fill="#ffffff" font-family="system-ui,-apple-system,sans-serif" font-size="24" font-weight="700">${initials}</text></svg>`;
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
     },
     chartDefs: [
         { id: "wins-trajectory-chart", metric: "atp_main_wins", label: "ATP Main Draw Wins", isLog: false },
@@ -72,16 +74,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function loadData() {
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const hasParentRepoMount = isLocal && window.location.pathname.includes("/tennis-analytics/");
     const localUrl = "../../tml-data/data/greatness/young_guns_race.json";
     const githubUrl = "https://raw.githubusercontent.com/sorukumar/tml-data/main/data/greatness/young_guns_race.json";
 
-    try {
-        const response = await fetch(localUrl);
-        if (!response.ok) throw new Error(`Status: ${response.status}`);
-        STATE.data = await response.json();
-        return;
-    } catch (_) {
-        // Fall back to GitHub raw.
+    if (hasParentRepoMount) {
+        try {
+            const response = await fetch(localUrl);
+            if (response.ok) {
+                STATE.data = await response.json();
+                return;
+            }
+        } catch (_) {
+            // Fall back to GitHub raw.
+        }
     }
 
     const remoteResponse = await fetch(githubUrl);

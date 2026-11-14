@@ -1,10 +1,12 @@
 {
   "servers": {
-    "tennis-analytics": {
+    "tennis-mcp": {
       "type": "stdio",
-      "command": "python3",
+      "command": "uvx",
       "args": [
-        "/Users/saurabhkumar/Desktop/Work/github/tml-data/mcp_server/server.py"
+        "--from",
+        "git+https://github.com/sorukumar/tennis-mcp",
+        "tennis-mcp"
       ]
     }
   }

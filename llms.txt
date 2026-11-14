@@ -1,9 +1,9 @@
 # tennis-analytics
 
-Interactive Data Visualizations for Professional Tennis.
+Interactive Data Visualizations & Open ATP Analytics Warehouse (1968–2026).
 
 ## Overview
-This repository contains a technical summary of the `tennis-analytics` project, designed for LLMs, AI agents, and search engines.
+`tennis-analytics` hosts interactive ATP data stories powered by `sorukumar/tml-data` (200,105 ATP matches, 7,622 players, 113,744 H2H matchups, plus 7,663 Match Charting Project charted matches) and exposed programmatically to AI agents via `sorukumar/tennis-mcp`.
 
 ## Key Modules & Insights
 - **Slam Performance (GSDI)** (`/gsdi/`):
@@ -14,6 +14,8 @@ This repository contains a technical summary of the `tennis-analytics` project, 
   - *Insight*: Mathematically ranks match drama. Identifies the **2019 Wimbledon Final** as the most exciting match ever played. Highlights the **Alcaraz-Sinner Roland Garros** clash as a new benchmark for modern tension.
 - **Greatness Race** (`/greatness/`):
   - *Insight*: Tracks titles vs. age. Confirms Nadal was a prodigy; Federer was a late starter compared to his Big 3 peers.
+- **Young Guns** (`/young-guns/`):
+  - *Insight*: Age-for-age trajectory scouting for Joao Fonseca, Jakub Mensik, Learner Tien, and Rafael Jodar against Alcaraz and Sinner benchmarks.
 - **GS Breakthrough** (`/gs-breakthrough/`):
   - *Insight*: Visualizes the "Age Wall." Data proves that 90% of Grand Slam champions win their first trophy before age 27.
 - **Brutal Tennis** (`/viz/brutaltennis.html`):
@@ -21,10 +23,15 @@ This repository contains a technical summary of the `tennis-analytics` project, 
 - **Geography** (`/globaltop100evolution/`):
   - *Insight*: Maps the 50-year talent shift from Western strongholds to a fully globalized competitive landscape.
 
+## Data & MCP Access
+- Parquet & JSON warehouse: https://github.com/sorukumar/tml-data
+- Standalone MCP Server (`uvx`): https://github.com/sorukumar/tennis-mcp
+
 ## Tech Stack
-- JavaScript (D3.js v7, ECharts), Python (Data Prep).
+- JavaScript (D3.js v7, ECharts), Python (Data Prep, DuckDB, Parquet).
 - Custom `ExportEngine` for high-quality video generation.
 
 ## Links
 - Live Demos: https://sorukumar.github.io/tennis-analytics/
-- Repo: https://github.com/sorukumar/tennis-analytics
+- Frontend Repo: https://github.com/sorukumar/tennis-analytics
+- Full Crawler Context: https://sorukumar.github.io/tennis-analytics/llms-full.txt

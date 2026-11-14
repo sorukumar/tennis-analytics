@@ -8,7 +8,7 @@ description: Expert system for professional tennis data analysis and interactive
 This skill allows AI agents to contribute to `tennis-analytics`, a premium platform for tennis data stories.
 
 ## 🎯 Primary Capabilities
-- **ATP/WTA Data Processing**: Interpreting match stats (Elo, GSDI, NBI) from `tml-data`.
+- **ATP & Match Charting Data Processing**: Interpreting ATP match stats (200k+ matches, Elo, GSDI, NBI) and point-by-point charting metrics (7.6k+ matches) from `tml-data` or the standalone `tennis-mcp` server.
 - **D3.js & ECharts Implementation**: Building custom, interactive charts with premium aesthetics.
 - **Storytelling Layouts**: Comparing player trajectories and historical trends.
 - **Social Export**: Using `ExportEngine` for HD video recording.

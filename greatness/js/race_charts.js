@@ -106,38 +106,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function loadData() {
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const hasParentRepoMount = isLocal && window.location.pathname.includes("/tennis-analytics/");
     // Primary source: tml-data repository
     const prodURL = "https://raw.githubusercontent.com/sorukumar/tml-data/main/data/greatness/race_to_greatness.json";
+    const localPath = "../../tml-data/data/greatness/race_to_greatness.json";
 
-    // For local dev, we might be serving from a common root, or we might need the remote data
-    // If you have a local copy in greatness/data, it will still try that first for legacy reasons
-    const localPaths = [
-        "data/race_to_greatness.json",
-        "../../tml-data/data/greatness/race_to_greatness.json"
-    ];
-
-    console.log(`Loading data...`);
-
-    // Try local paths first if local
-    if (isLocal) {
-        for (const path of localPaths) {
-            try {
-                const response = await fetch(path);
-                if (response.ok) {
-                    STATE.data = await response.json();
-                    console.log(`Loaded from local: ${path}`);
-                    return;
-                }
-            } catch (e) { /* continue */ }
-        }
+    if (hasParentRepoMount) {
+        try {
+            const response = await fetch(localPath);
+            if (response.ok) {
+                STATE.data = await response.json();
+                return;
+            }
+        } catch (e) { /* continue to remote */ }
     }
 
-    // Fallback to Production (Github)
+    // Production / GitHub raw source
     try {
         const response = await fetch(prodURL);
         if (!response.ok) throw new Error(`Status: ${response.status}`);
         STATE.data = await response.json();
-        console.log(`Loaded from Production (Github)`);
     } catch (error) {
         console.error("All data loads failed:", error);
     }
