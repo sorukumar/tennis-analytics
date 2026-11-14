@@ -784,7 +784,24 @@ nav.navbar {
 }
 
 .footer-left {
-  opacity: 0.9;
+  opacity: 0.95;
+}
+
+.footer-left p {
+  margin: 0;
+}
+
+.footer-left a {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+  text-underline-offset: 3px;
+  transition: var(--transition-standard);
+}
+
+.footer-left a:hover {
+  color: var(--accent-color);
+  text-decoration-color: var(--accent-color);
 }
 
 .footer-right a {
@@ -1047,6 +1064,10 @@ nav.navbar {
     flex-direction: column;
     text-align: center;
     gap: 15px;
+  }
+
+  .footer-left {
+    padding: 0 56px;
   }
 
   .footer-right {

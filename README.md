@@ -44,14 +44,14 @@
 
 ## 🤖 For AI, LLMs & MCP Clients
 
-All visualization metrics are backed by open ATP datasets in [`sorukumar/tml-data`](https://github.com/sorukumar/tml-data) (200,105 matches since 1968 + 7,663 Match Charting Project matches) and queryable directly in Claude Desktop, Claude Code, Cursor, VS Code, or Antigravity via the zero-clone [`sorukumar/tennis-mcp`](https://github.com/sorukumar/tennis-mcp) server:
+All visualization metrics are backed by open ATP datasets in [`sorukumar/tml-data`](https://github.com/sorukumar/tml-data) (sourced from [TennisMyLife](https://stats.tennismylife.org) &amp; [Jeff Sackmann](https://github.com/JeffSackmann) — 200,105 matches since 1968 + 7,663 Match Charting Project matches) and queryable directly in Claude Desktop, Claude Code, Cursor, VS Code, or Antigravity via the zero-clone [`sorukumar/tennis-mcp`](https://github.com/sorukumar/tennis-mcp) server:
 
 ```json
 {
   "mcpServers": {
     "tennis-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/sorukumar/tennis-mcp", "tennis-mcp"]
+      "args": ["tennis-mcp"]
     }
   }
 }

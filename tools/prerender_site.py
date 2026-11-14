@@ -33,6 +33,7 @@ JSONLD_BLOCK_RE = re.compile(r"<!-- AUTO:JSONLD-START -->.*?<!-- AUTO:JSONLD-END
 
 BASE_SITE_URL = "https://sorukumar.github.io/tennis-analytics"
 TML_REPO_URL = "https://github.com/sorukumar/tml-data"
+TML_SITE_URL = "https://stats.tennismylife.org"
 MCP_REPO_URL = "https://github.com/sorukumar/tennis-mcp"
 
 
@@ -86,8 +87,9 @@ def _build_digest_section(
         f'    <p style="margin:10px 0 6px;font-size:0.9rem;color:#334155;line-height:1.5;">{_esc(subtitle)}</p>\n'
         f"    {table_html}\n"
         '    <p style="margin:12px 0 0;font-size:0.82rem;color:#475569;">\n'
-        f'      Source: <a href="{TML_REPO_URL}/blob/main/data/{_esc(dataset_path)}" target="_blank" rel="noopener noreferrer">sorukumar/tml-data ({_esc(dataset_path)})</a>\n'
-        f'      &middot; Query via AI/MCP: <a href="{MCP_REPO_URL}" target="_blank" rel="noopener noreferrer">sorukumar/tennis-mcp</a>\n'
+        f'      Source: <a href="{TML_REPO_URL}/blob/main/data/{_esc(dataset_path)}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">sorukumar/tml-data ({_esc(dataset_path)})</a>\n'
+        f'      &middot; Match data: <a href="{TML_SITE_URL}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">TennisMyLife</a>\n'
+        f'      &middot; Query via AI/MCP: <a href="{MCP_REPO_URL}" target="_blank" rel="noopener noreferrer" style="color:#1e5631;font-weight:500;text-decoration:underline;text-underline-offset:2px;">sorukumar/tennis-mcp</a>\n'
         "    </p>\n"
         "  </details>\n"
         "</section>\n"
@@ -111,6 +113,7 @@ def _build_dataset_jsonld(
         "creator": {"@type": "Person", "name": "Saurabh Kumar"},
         "license": "https://opensource.org/licenses/MIT",
         "isBasedOn": [
+            TML_SITE_URL,
             TML_REPO_URL,
             "https://github.com/Tennismylife/TML-Database",
         ],
@@ -446,8 +449,9 @@ def _build_llms_full(data: dict[str, Any]) -> str:
         "plus **7,663 Match Charting Project matches** across **475 charted players**.",
         "",
         f"- Interactive Visualizations: {BASE_SITE_URL}/",
+        f"- Upstream Match Data (TennisMyLife): {TML_SITE_URL}",
         f"- Parquet & JSON Data Warehouse: {TML_REPO_URL}",
-        f"- Standalone MCP Server (`uvx`): {MCP_REPO_URL}",
+        f"- Standalone MCP Server (`uvx tennis-mcp`): {MCP_REPO_URL}",
         "",
         "## 1. Top 10 Grand Slam Dominance Index (GSDI) Runs",
         "",
@@ -511,7 +515,7 @@ def _build_llms_full(data: dict[str, Any]) -> str:
         '  "mcpServers": {',
         '    "tennis-mcp": {',
         '      "command": "uvx",',
-        '      "args": ["--from", "git+https://github.com/sorukumar/tennis-mcp", "tennis-mcp"]',
+        '      "args": ["tennis-mcp"]',
         '    }',
         '  }',
         '}',

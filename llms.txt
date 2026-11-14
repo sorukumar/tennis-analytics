@@ -24,8 +24,9 @@ Interactive Data Visualizations & Open ATP Analytics Warehouse (1968–2026).
   - *Insight*: Maps the 50-year talent shift from Western strongholds to a fully globalized competitive landscape.
 
 ## Data & MCP Access
+- Upstream match data: https://stats.tennismylife.org (TennisMyLife)
 - Parquet & JSON warehouse: https://github.com/sorukumar/tml-data
-- Standalone MCP Server (`uvx`): https://github.com/sorukumar/tennis-mcp
+- Standalone MCP Server (`uvx tennis-mcp`): https://github.com/sorukumar/tennis-mcp
 
 ## Tech Stack
 - JavaScript (D3.js v7, ECharts), Python (Data Prep, DuckDB, Parquet).
